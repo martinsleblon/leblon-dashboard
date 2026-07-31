@@ -438,7 +438,7 @@ function abrirPerfil(vend) {
   var p=PF[vend],cor=CORES[vend],cv=D.churn_por_vend[vend];
   document.getElementById('perfil-detalhe').style.display='block';
   var nm=document.getElementById('pf-nome');nm.textContent=vend;nm.style.color=cor;
-  var meses=['Jan','Fev','Mar','Abr','Mai','Jun','Jul*'];
+  var meses=['Jan','Fev','Mar','Abr','Mai','Jun','Jul'];
   var fat_arr=meses.map(function(m){return p.meses[m]?p.meses[m].fat:0;});
   var n_at=fat_arr.filter(function(f){return f>0;}).length;
   var media=n_at>0?Math.round(fat_arr.reduce(function(a,b){return a+b;},0)/n_at):0;
@@ -483,7 +483,7 @@ function buildCharts() {
   bFM('cMaiFat','cMaiMeta',D.mai_fechado);
   var evDS=[],vends2=['LETICIA','THIAGO','BRUNA','MIRIAM'];
   for(var i=0;i<vends2.length;i++){var v=vends2[i],evD=[];for(var m=1;m<=7;m++){var ef=0;for(var j=0;j<D.vend_mes.length;j++) if(D.vend_mes[j].vend===v&&D.vend_mes[j].mes_n===m) ef=D.vend_mes[j].fat;evD.push(ef||null);}evDS.push({label:v,data:evD,borderColor:CORES[v],backgroundColor:CORES[v]+'22',tension:.3,borderWidth:2,pointRadius:4,spanGaps:true});}
-  new Chart(document.getElementById('cEvol'),{type:'line',data:{labels:['Jan','Fev','Mar','Abr','Mai','Jun','Jul*'],datasets:evDS},options:{responsive:true,plugins:{legend:{labels:{color:tc,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+fmtK(c.raw);}}}},scales:{x:{grid:{color:gc},ticks:{color:tc}},y:{grid:{color:gc},ticks:{color:tc,callback:function(v){return fmtK(v);}}}}}});
+  new Chart(document.getElementById('cEvol'),{type:'line',data:{labels:['Jan','Fev','Mar','Abr','Mai','Jun','Jul'],datasets:evDS},options:{responsive:true,plugins:{legend:{labels:{color:tc,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+fmtK(c.raw);}}}},scales:{x:{grid:{color:gc},ticks:{color:tc}},y:{grid:{color:gc},ticks:{color:tc,callback:function(v){return fmtK(v);}}}}}});
   var lT=D.lbn_list.slice(0,5),lL=[],lD=[];for(var i=0;i<lT.length;i++){lL.push(lT[i].nome.substring(0,18));lD.push(lT[i].fat);}
   new Chart(document.getElementById('cLbn'),{type:'bar',data:{labels:lL,datasets:[{data:lD,backgroundColor:'#7F77DD88',borderColor:'#7F77DD',borderWidth:1,borderRadius:4}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return 'R$ '+c.raw.toLocaleString('pt-BR');}}}},scales:{x:{grid:{color:gc},ticks:{color:tc,callback:function(v){return fmtK(v);}}},y:{grid:{display:false},ticks:{color:tc,font:{size:10}}}}}});
 }
