@@ -6,203 +6,386 @@
 <title>Organograma — Leblon Rolamentos</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#cdd6f4;font-size:14px;min-height:100vh}
-.hdr{background:linear-gradient(135deg,#1B2A4A,#2D5986);padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #30363d}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#cdd6f4;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1B2A4A,#2D5986);padding:.8rem 1.4rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:100}
 .logo{font-size:15px;font-weight:800;color:#fff}.logo b{color:#63B3ED}
-.back{font-size:12px;color:#63B3ED;text-decoration:none;padding:4px 12px;border:1px solid #63B3ED;border-radius:6px}
-.back:hover{background:#63B3ED22}
-.wrap{padding:1.5rem;overflow-x:auto}
-.ptit{font-size:22px;font-weight:700;color:#fff;margin-bottom:.3rem}
-.psub{font-size:12px;color:#8b949e;margin-bottom:1.2rem}
-.leg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
-.leg span{font-size:10px;font-weight:600;padding:3px 10px;border-radius:99px}
-.tree{display:flex;flex-direction:column;align-items:center;min-width:900px}
-.conn-v{width:2px;height:22px;background:#30363d;margin:0 auto}
-.conn-h{height:2px;background:#30363d;margin:10px 0}
-.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
-.dept{display:flex;flex-direction:column;align-items:center;gap:8px}
-.dept-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
-.card{border-radius:10px;padding:.85rem 1rem;min-width:175px;max-width:215px;cursor:pointer;flex-shrink:0;transition:transform .12s}
-.card:hover{transform:translateY(-2px)}
-.card .dep{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-.card .nm{font-size:14px;font-weight:800;color:#fff;margin-bottom:2px}
-.card .cg{font-size:11px;color:#8b949e;margin-bottom:0}
-.card .fn{display:none;margin-top:8px;border-top:1px solid #30363d;padding-top:8px}
-.card .fn ul{font-size:11px;color:#cdd6f4;padding-left:1rem;line-height:1.9}
-.card.open .fn{display:block}
-.ec-tag{font-size:9px;padding:1px 6px;border-radius:99px;background:#2d1010;color:#FC8181;margin-left:4px;vertical-align:middle}
-.sub-note{font-size:9px;color:#8b949e;text-align:center;margin:2px 0}
+.back{font-size:11px;color:#63B3ED;text-decoration:none;padding:4px 12px;border:1px solid #378ADD55;border-radius:6px;transition:background .15s}
+.back:hover{background:#378ADD22}
+.wrap{padding:2rem 1.5rem;overflow-x:auto;min-width:320px}
+.ptit{font-size:22px;font-weight:700;color:#fff;margin-bottom:.2rem}
+.psub{font-size:12px;color:#8b949e;margin-bottom:1.4rem}
+.leg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.leg span{font-size:10px;font-weight:600;padding:3px 10px;border-radius:99px;border:1px solid}
+.hint{font-size:11px;color:#8b949e;margin-bottom:1.5rem;padding:.5rem .8rem;background:#161b22;border-radius:6px;border-left:3px solid #30363d;display:inline-block}
+
+/* CARDS */
+.card{border-radius:10px;padding:.85rem 1.1rem;width:190px;flex-shrink:0;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.card.open{box-shadow:0 0 0 1px var(--bd-color)}
+.card .dep-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.card .name{font-size:14px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:3px}
+.card .role{font-size:11px;color:#8b949e;line-height:1.3}
+.card .fns{display:none;margin-top:10px;padding-top:8px;border-top:1px solid #30363d}
+.card .fns li{font-size:11px;color:#cdd6f4;line-height:1.85;list-style:none;padding-left:0}
+.card .fns li::before{content:"›  ";color:#8b949e}
+.card.open .fns{display:block}
+.card .toggle{position:absolute;top:.7rem;right:.8rem;font-size:10px;color:#8b949e;transition:transform .2s}
+.card.open .toggle{transform:rotate(180deg)}
+.ec-badge{display:inline-block;font-size:9px;padding:1px 6px;border-radius:99px;background:#2d1010;color:#FC8181;margin-top:3px}
+
+/* CORES POR DEPTO */
+.card.L{background:#1a2744;border:2px solid #378ADD}
+.card.F{background:#1a1030;border:2px solid #7F77DD}
+.card.C{background:#251500;border:2px solid #FB923C}
+.card.V{background:#0a1e14;border:2px solid #1D9E75}
+.card.G{background:#1e1800;border:2px solid #BA7517}
+.card.S{background:#161b22;border:2px solid #30363d}
+
+/* TREE LAYOUT */
+.tree{display:flex;flex-direction:column;align-items:center;gap:0;min-width:860px}
+.level{display:flex;justify-content:center;gap:0;position:relative}
+.node-wrap{display:flex;flex-direction:column;align-items:center}
+.v-line{width:2px;background:#30363d;margin:0 auto}
+.h-line{height:2px;background:#30363d}
+.children-row{display:flex;align-items:flex-start;justify-content:center;gap:16px;position:relative}
+.children-row::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%)}
+.dept-block{display:flex;flex-direction:column;align-items:center;gap:0}
+.dept-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:3px 10px;border-radius:99px;margin-bottom:8px;border:1px solid}
+.sub-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.connector{display:flex;flex-direction:column;align-items:center}
+.dual-note{font-size:9px;color:#8b949e;text-align:center;padding:3px 0;font-style:italic}
 </style>
 </head>
 <body>
+
 <div class="hdr">
   <div class="logo">Leblon <b>Rolamentos</b></div>
   <a class="back" href="index.html">&#8592; Dashboard</a>
 </div>
+
 <div class="wrap">
   <div class="ptit">Organograma</div>
-  <div class="psub">Leblon Rolamentos &mdash; Estrutura completa &mdash; August 2026</div>
+  <div class="psub">Leblon Rolamentos &mdash; Estrutura de equipe</div>
   <div class="leg">
-    <span style="background:#1B2A4A;color:#63B3ED;border:1px solid #63B3ED">Lideranca</span>
-    <span style="background:#1a0d2d;color:#9F7AEA;border:1px solid #7F77DD">Financeiro</span>
-    <span style="background:#2d1800;color:#FB923C;border:1px solid #FB923C">Compras</span>
-    <span style="background:#0d2318;color:#34D399;border:1px solid #1D9E75">Comercial</span>
-    <span style="background:#2d2010;color:#F59E0B;border:1px solid #BA7517">Logistica</span>
+    <span style="background:#1a2744;color:#63B3ED;border-color:#378ADD">Lideranca</span>
+    <span style="background:#1a1030;color:#9F7AEA;border-color:#7F77DD">Financeiro</span>
+    <span style="background:#251500;color:#FB923C;border-color:#FB923C">Compras</span>
+    <span style="background:#0a1e14;color:#34D399;border-color:#1D9E75">Comercial</span>
+    <span style="background:#1e1800;color:#F59E0B;border-color:#BA7517">Logistica</span>
   </div>
-  <div style="font-size:11px;color:#8b949e;margin-bottom:1.2rem">Clique em qualquer card para ver as funcoes.</div>
-  <div class="tree" id="tree"></div>
+  <div class="hint">Clique em qualquer card para expandir as funcoes</div>
+
+  <div class="tree">
+
+    <!-- VALDOMIRO -->
+    <div class="node-wrap">
+      <div class="card L" onclick="tog(this)">
+        <span class="toggle">&#9660;</span>
+        <div class="dep-label" style="color:#63B3ED">Lideranca</div>
+        <div class="name">Valdomiro</div>
+        <div class="role">CEO e Fundador</div>
+        <ul class="fns">
+          <li>Visao estrategica da empresa</li>
+          <li>Decisoes societarias e de expansao</li>
+          <li>Relacionamento com fornecedores-chave</li>
+          <li>Aprovacao de investimentos</li>
+        </ul>
+      </div>
+      <div class="v-line" style="height:28px"></div>
+    </div>
+
+    <!-- RAFAEL -->
+    <div class="node-wrap">
+      <div class="card L" onclick="tog(this)">
+        <span class="toggle">&#9660;</span>
+        <div class="dep-label" style="color:#63B3ED">Lideranca</div>
+        <div class="name">Rafael</div>
+        <div class="role">Diretor Geral</div>
+        <ul class="fns">
+          <li>Gestao comercial e estrategica</li>
+          <li>Operacoes e processos internos</li>
+          <li>Treinamento e desenvolvimento do time</li>
+          <li>Gestao de importacoes e compras</li>
+          <li>Indicadores e metas da empresa</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LINHA HORIZONTAL PRINCIPAL -->
+    <div style="display:flex;flex-direction:column;align-items:center;width:100%">
+      <div class="v-line" style="height:24px"></div>
+      <div class="h-line" style="width:88%"></div>
+    </div>
+
+    <!-- NIVEL 3: 4 COLUNAS -->
+    <div style="display:flex;gap:24px;align-items:flex-start;justify-content:center;width:100%">
+
+      <!-- FINANCEIRO -->
+      <div class="dept-block">
+        <div class="v-line" style="height:18px"></div>
+        <div class="dept-title" style="color:#9F7AEA;border-color:#7F77DD;background:#1a1030">Financeiro</div>
+
+        <!-- Tarsilla e Neusa lado a lado -->
+        <div style="display:flex;gap:12px;align-items:flex-start">
+
+          <!-- Tarsilla -->
+          <div class="node-wrap">
+            <div class="card F" onclick="tog(this)">
+              <span class="toggle">&#9660;</span>
+              <div class="dep-label" style="color:#9F7AEA">Financeiro</div>
+              <div class="name">Tarsilla</div>
+              <div class="role">Diretora Financeira</div>
+              <ul class="fns">
+                <li>Gestao financeira Leblon Rolamentos</li>
+                <li>Supervisao financeira LBN</li>
+                <li>Fechamento de importacoes</li>
+                <li>Fluxo de caixa</li>
+                <li>Relatorios financeiros consolidados</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Neusa -->
+          <div class="node-wrap">
+            <div class="card F" onclick="tog(this)">
+              <span class="toggle">&#9660;</span>
+              <div class="dep-label" style="color:#9F7AEA">Financeiro</div>
+              <div class="name">Neusa</div>
+              <div class="role">Gestora Financeira LBN</div>
+              <ul class="fns">
+                <li>Gestao financeira LBN</li>
+                <li>Contas a pagar e receber LBN</li>
+                <li>Controle de notas fiscais</li>
+                <li>Suporte a Diretoria Financeira</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Karina — suporte duplo -->
+        <div class="dual-note" style="margin-top:6px">suporte duplo</div>
+        <div style="display:flex;gap:40px;justify-content:center">
+          <div class="v-line" style="height:14px"></div>
+          <div class="v-line" style="height:14px"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0;width:100%;justify-content:center">
+          <div class="h-line" style="width:40px"></div>
+          <div class="v-line" style="height:14px"></div>
+          <div class="h-line" style="width:40px"></div>
+        </div>
+        <div class="node-wrap">
+          <div class="card F" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#9F7AEA">Financeiro</div>
+            <div class="name">Karina</div>
+            <div class="role">Auxiliar Financeira</div>
+            <ul class="fns">
+              <li>Suporte financeiro Leblon e LBN</li>
+              <li>Lancamentos e conciliacoes</li>
+              <li>Organizacao de documentos fiscais</li>
+              <li>Apoio a Tarsilla e Neusa</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPRAS -->
+      <div class="dept-block">
+        <div class="v-line" style="height:18px"></div>
+        <div class="dept-title" style="color:#FB923C;border-color:#FB923C;background:#251500">Compras</div>
+        <div class="card C" onclick="tog(this)">
+          <span class="toggle">&#9660;</span>
+          <div class="dep-label" style="color:#FB923C">Compras</div>
+          <div class="name">Lucas Kauffman</div>
+          <div class="role">Compras</div>
+          <ul class="fns">
+            <li>Gestao de pedidos de compra</li>
+            <li>Relacionamento com fornecedores</li>
+            <li>Controle de estoque e reposicao</li>
+            <li>Suporte ao planejamento de importacao</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- COMERCIAL -->
+      <div class="dept-block">
+        <div class="v-line" style="height:18px"></div>
+        <div class="dept-title" style="color:#34D399;border-color:#1D9E75;background:#0a1e14">Comercial</div>
+        <div class="sub-row">
+
+          <div class="card V" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#34D399">Comercial</div>
+            <div class="name">Leticia</div>
+            <div class="role">Consultora Comercial</div>
+            <ul class="fns">
+              <li>Prospeccao e atendimento</li>
+              <li>Gestao da carteira ativa</li>
+              <li>Negociacao e fechamento</li>
+              <li>Foco LBN ID — 91% do mix</li>
+            </ul>
+          </div>
+
+          <div class="card V" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#34D399">Comercial</div>
+            <div class="name">Thiago</div>
+            <div class="role">Consultor Comercial</div>
+            <ul class="fns">
+              <li>Prospeccao e atendimento</li>
+              <li>Gestao da carteira ativa</li>
+              <li>Negociacao e fechamento</li>
+              <li>Mix 60% LBN ID</li>
+            </ul>
+          </div>
+
+          <div class="card V" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#34D399">Comercial</div>
+            <div class="name">Bruna</div>
+            <div class="role">Consultora Comercial</div>
+            <ul class="fns">
+              <li>Prospeccao e atendimento</li>
+              <li>Gestao de grandes contas</li>
+              <li>Negociacao e fechamento</li>
+              <li>Maior carteira acumulada 2026</li>
+            </ul>
+          </div>
+
+          <div class="card V" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#34D399">Comercial</div>
+            <div class="name">Miriam</div>
+            <div class="role">Consultora Comercial</div>
+            <ul class="fns">
+              <li>Prospeccao e atendimento</li>
+              <li>Gestao da carteira ativa</li>
+              <li>Negociacao e fechamento</li>
+              <li>Maior volume de pedidos 2026</li>
+            </ul>
+          </div>
+
+          <div class="card V" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#34D399">Comercial</div>
+            <div class="name">SDR 1</div>
+            <div class="role">Pre-vendas</div>
+            <ul class="fns">
+              <li>Prospeccao ativa de novos clientes</li>
+              <li>Qualificacao de leads</li>
+              <li>Agendamento de contatos</li>
+              <li>Suporte ao time comercial</li>
+            </ul>
+          </div>
+
+          <div class="card V" onclick="tog(this)" style="opacity:.6">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#34D399">Comercial</div>
+            <div class="name">SDR 2</div>
+            <div class="role">Pre-vendas</div>
+            <div class="ec-badge">Em contratacao</div>
+            <ul class="fns">
+              <li>Prospeccao ativa de novos clientes</li>
+              <li>Qualificacao de leads</li>
+              <li>Agendamento de contatos</li>
+              <li>Suporte ao time comercial</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LOGISTICA -->
+      <div class="dept-block">
+        <div class="v-line" style="height:18px"></div>
+        <div class="dept-title" style="color:#F59E0B;border-color:#BA7517;background:#1e1800">Logistica</div>
+
+        <!-- Sergio -->
+        <div class="node-wrap">
+          <div class="card G" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#F59E0B">Logistica</div>
+            <div class="name">Sergio</div>
+            <div class="role">Responsavel de Logistica</div>
+            <ul class="fns">
+              <li>Gestao das operacoes de logistica</li>
+              <li>Coordenacao da equipe de entrega</li>
+              <li>Controle de expedicao e recebimento</li>
+              <li>Organizacao do estoque fisico</li>
+            </ul>
+          </div>
+          <div class="v-line" style="height:18px"></div>
+        </div>
+
+        <!-- Equipe logistica + motoboys + irene -->
+        <div class="sub-row">
+          <div class="card G" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#F59E0B">Logistica</div>
+            <div class="name">Lucas Garbeto</div>
+            <div class="role">Auxiliar de Logistica</div>
+            <ul class="fns">
+              <li>Separacao e conferencia de pedidos</li>
+              <li>Apoio a expedicao</li>
+              <li>Organizacao do estoque</li>
+            </ul>
+          </div>
+          <div class="card G" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#F59E0B">Logistica</div>
+            <div class="name">Henrique</div>
+            <div class="role">Auxiliar de Logistica</div>
+            <ul class="fns">
+              <li>Separacao e conferencia de pedidos</li>
+              <li>Apoio a expedicao</li>
+              <li>Organizacao do estoque</li>
+            </ul>
+          </div>
+          <div class="card G" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#F59E0B">Logistica</div>
+            <div class="name">Marcos</div>
+            <div class="role">Motoboy</div>
+            <ul class="fns">
+              <li>Entregas externas</li>
+              <li>Coletas e retiradas</li>
+              <li>Suporte a logistica</li>
+            </ul>
+          </div>
+          <div class="card G" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#F59E0B">Logistica</div>
+            <div class="name">Rafinha</div>
+            <div class="role">Motoboy</div>
+            <ul class="fns">
+              <li>Entregas externas</li>
+              <li>Coletas e retiradas</li>
+              <li>Suporte a logistica</li>
+            </ul>
+          </div>
+          <div class="card S" onclick="tog(this)">
+            <span class="toggle">&#9660;</span>
+            <div class="dep-label" style="color:#8b949e">Apoio</div>
+            <div class="name">Irene</div>
+            <div class="role">Servicos Gerais</div>
+            <ul class="fns">
+              <li>Limpeza e organizacao do escritorio</li>
+              <li>Conservacao do ambiente de trabalho</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- fim nivel 3 -->
+  </div><!-- fim tree -->
 </div>
 
 <script>
-var N = [{"id": "valdomiro", "nome": "Valdomiro", "cargo": "CEO e Fundador", "d": "L", "fn": ["Visao estrategica da empresa", "Decisoes societarias e de expansao", "Relacionamento com fornecedores-chave", "Aprovacao de investimentos e importacoes"]}, {"id": "rafael", "nome": "Rafael", "cargo": "Diretor Geral", "d": "L", "p": "valdomiro", "fn": ["Gestao comercial e estrategica", "Operacoes e processos internos", "Treinamento e desenvolvimento do time", "Gestao de importacoes e compras", "Indicadores e metas da empresa"]}, {"id": "tarsilla", "nome": "Tarsilla", "cargo": "Diretora Financeira", "d": "F", "p": "rafael", "fn": ["Gestao financeira Leblon Rolamentos", "Supervisao financeira LBN", "Fechamento de importacoes", "Fluxo de caixa e contas a pagar/receber", "Relatorios financeiros consolidados"]}, {"id": "neusa", "nome": "Neusa", "cargo": "Gestora Financeira LBN", "d": "F", "p": "rafael", "fn": ["Gestao financeira LBN", "Contas a pagar e receber LBN", "Controle de notas fiscais", "Suporte a Diretoria Financeira"]}, {"id": "karina", "nome": "Karina", "cargo": "Auxiliar Financeira", "d": "F", "p2": ["tarsilla", "neusa"], "fn": ["Suporte financeiro Leblon e LBN", "Lancamentos e conciliacoes", "Organizacao de documentos fiscais", "Apoio a Tarsilla e Neusa"]}, {"id": "irene", "nome": "Irene", "cargo": "Servicos Gerais", "d": "F", "p": "neusa", "fn": ["Limpeza e organizacao do escritorio", "Conservacao do ambiente de trabalho"]}, {"id": "lucask", "nome": "Lucas Kauffman", "cargo": "Compras", "d": "C", "p": "rafael", "fn": ["Gestao de pedidos de compra", "Relacionamento com fornecedores", "Controle de estoque e reposicao", "Suporte ao planejamento de importacao"]}, {"id": "leticia", "nome": "Leticia", "cargo": "Consultora Comercial", "d": "V", "p": "rafael", "fn": ["Prospeccao e atendimento de clientes", "Gestao da carteira ativa", "Negociacao e fechamento de pedidos", "Foco LBN ID 91% do mix"]}, {"id": "thiago", "nome": "Thiago", "cargo": "Consultor Comercial", "d": "V", "p": "rafael", "fn": ["Prospeccao e atendimento de clientes", "Gestao da carteira ativa", "Negociacao e fechamento de pedidos", "Mix 60% LBN ID"]}, {"id": "bruna", "nome": "Bruna", "cargo": "Consultora Comercial", "d": "V", "p": "rafael", "fn": ["Prospeccao e atendimento de clientes", "Gestao de grandes contas", "Negociacao e fechamento de pedidos", "Maior carteira acumulada 2026"]}, {"id": "miriam", "nome": "Miriam", "cargo": "Consultora Comercial", "d": "V", "p": "rafael", "fn": ["Prospeccao e atendimento de clientes", "Gestao da carteira ativa", "Negociacao e fechamento de pedidos", "Maior volume de pedidos 2026"]}, {"id": "sdr1", "nome": "SDR 1", "cargo": "Pre-vendas", "d": "V", "p": "rafael", "fn": ["Prospeccao ativa de novos clientes", "Qualificacao de leads", "Agendamento de contatos", "Suporte ao time comercial"]}, {"id": "sdr2", "nome": "SDR 2", "cargo": "Pre-vendas", "d": "V", "p": "rafael", "ec": true, "fn": ["Prospeccao ativa de novos clientes", "Qualificacao de leads", "Agendamento de contatos", "Suporte ao time comercial"]}, {"id": "sergio", "nome": "Sergio", "cargo": "Responsavel de Logistica", "d": "G", "p": "rafael", "fn": ["Gestao das operacoes de logistica", "Coordenacao da equipe de entrega", "Controle de expedicao e recebimento", "Organizacao do estoque fisico"]}, {"id": "lucasg", "nome": "Lucas Garbeto", "cargo": "Auxiliar de Logistica", "d": "G", "p": "sergio", "fn": ["Separacao e conferencia de pedidos", "Apoio a expedicao", "Organizacao do estoque"]}, {"id": "henrique", "nome": "Henrique", "cargo": "Auxiliar de Logistica", "d": "G", "p": "sergio", "fn": ["Separacao e conferencia de pedidos", "Apoio a expedicao", "Organizacao do estoque"]}, {"id": "marcos", "nome": "Marcos", "cargo": "Motoboy", "d": "G", "p": "sergio", "fn": ["Entregas externas", "Coletas e retiradas", "Suporte a logistica"]}, {"id": "rafinha", "nome": "Rafinha", "cargo": "Motoboy", "d": "G", "p": "sergio", "fn": ["Entregas externas", "Coletas e retiradas", "Suporte a logistica"]}];
-var COR = {
-  L: {bg:'#1B2A4A',bd:'#63B3ED',badge:'#378ADD',label:'Lideranca'},
-  F: {bg:'#1a0d2d',bd:'#7F77DD',badge:'#9F7AEA',label:'Financeiro'},
-  C: {bg:'#2d1800',bd:'#FB923C',badge:'#E67E22',label:'Compras'},
-  V: {bg:'#0d2318',bd:'#1D9E75',badge:'#34D399',label:'Comercial'},
-  G: {bg:'#2d2010',bd:'#BA7517',badge:'#F59E0B',label:'Logistica'}
-};
-
-function byId(id) {
-  for (var i=0; i<N.length; i++) if (N[i].id===id) return N[i];
-  return null;
+function tog(card) {
+  card.classList.toggle('open');
 }
-
-function makeCard(n) {
-  var c = COR[n.d];
-  var el = document.createElement('div');
-  el.className = 'card';
-  el.style.cssText = 'background:'+c.bg+';border:2px solid '+c.bd;
-  if (n.ec) el.style.opacity = '0.6';
-
-  var dep = document.createElement('div');
-  dep.className = 'dep';
-  dep.style.color = c.badge;
-  dep.textContent = c.label;
-
-  var nm = document.createElement('div');
-  nm.className = 'nm';
-  nm.textContent = n.nome;
-  if (n.ec) {
-    var tag = document.createElement('span');
-    tag.className = 'ec-tag';
-    tag.textContent = 'Contratando';
-    nm.appendChild(tag);
-  }
-
-  var cg = document.createElement('div');
-  cg.className = 'cg';
-  cg.textContent = n.cargo;
-
-  var fn = document.createElement('div');
-  fn.className = 'fn';
-  var ul = document.createElement('ul');
-  n.fn.forEach(function(f) {
-    var li = document.createElement('li');
-    li.textContent = f;
-    ul.appendChild(li);
-  });
-  fn.appendChild(ul);
-
-  el.appendChild(dep);
-  el.appendChild(nm);
-  el.appendChild(cg);
-  el.appendChild(fn);
-
-  el.addEventListener('click', function() {
-    el.classList.toggle('open');
-  });
-
-  return el;
-}
-
-function connV() {
-  var d = document.createElement('div');
-  d.className = 'conn-v';
-  return d;
-}
-
-function row(ids) {
-  var d = document.createElement('div');
-  d.className = 'row';
-  ids.forEach(function(id) { d.appendChild(makeCard(byId(id))); });
-  return d;
-}
-
-function dept(label, color, inner) {
-  var d = document.createElement('div');
-  d.className = 'dept';
-  var lbl = document.createElement('div');
-  lbl.className = 'dept-label';
-  lbl.style.color = color;
-  lbl.textContent = label;
-  d.appendChild(lbl);
-  if (Array.isArray(inner)) {
-    inner.forEach(function(el) { d.appendChild(el); });
-  } else {
-    d.appendChild(inner);
-  }
-  return d;
-}
-
-function note(txt) {
-  var d = document.createElement('div');
-  d.className = 'sub-note';
-  d.textContent = txt;
-  return d;
-}
-
-function build() {
-  var tree = document.getElementById('tree');
-
-  // Topo: Valdomiro
-  tree.appendChild(makeCard(byId('valdomiro')));
-  tree.appendChild(connV());
-
-  // Rafael
-  tree.appendChild(makeCard(byId('rafael')));
-
-  // Linha horizontal
-  var hr = document.createElement('div');
-  hr.className = 'conn-h';
-  hr.style.width = '100%';
-  tree.appendChild(hr);
-
-  // Nivel 3 — 4 departamentos
-  var nivel3 = document.createElement('div');
-  nivel3.className = 'row';
-  nivel3.style.alignItems = 'flex-start';
-  nivel3.style.gap = '20px';
-
-  // FINANCEIRO
-  var fin = dept('Financeiro', '#9F7AEA', [
-    row(['tarsilla','neusa']),
-    note('suporte duplo'),
-    makeCard(byId('karina')),
-    note('via Neusa'),
-    makeCard(byId('irene'))
-  ]);
-  nivel3.appendChild(fin);
-
-  // COMPRAS
-  var comp = dept('Compras', '#FB923C', [makeCard(byId('lucask'))]);
-  nivel3.appendChild(comp);
-
-  // COMERCIAL
-  var com = dept('Comercial', '#34D399', [row(['leticia','thiago','bruna','miriam','sdr1','sdr2'])]);
-  nivel3.appendChild(com);
-
-  // LOGISTICA
-  var log = dept('Logistica', '#F59E0B', [
-    makeCard(byId('sergio')),
-    row(['lucasg','henrique','marcos','rafinha'])
-  ]);
-  nivel3.appendChild(log);
-
-  tree.appendChild(nivel3);
-}
-
-build();
 </script>
+
 </body>
 </html>
