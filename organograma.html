@@ -149,6 +149,8 @@ var NODES = [
    fns:['Prospeccao ativa de novos clientes','Qualificacao de leads','Agendamento de contatos','Suporte ao time comercial']},
   {id:'sdr2',     name:'SDR 2',     role:'Pre-vendas',              dept:'V', initials:'S2', parent:'rafael', ec:true,
    fns:['Prospeccao ativa de novos clientes','Qualificacao de leads','Agendamento de contatos','Suporte ao time comercial']},
+  {id:'pedro',    name:'Pedro',    role:'Vendedor Trainee',        dept:'V', initials:'PE', parent:'valdomiro',
+   fns:['Vendedor em treinamento','Aprendizado dos processos comerciais','Desenvolvimento de carteira de clientes','Sem meta definida para 2026']},
   {id:'sergio',   name:'Sergio',    role:'Resp. de Logistica',      dept:'G', initials:'SE', parent:'rafael',
    fns:['Gestao das operacoes de logistica','Coordenacao da equipe de entrega','Controle de expedicao e recebimento','Organizacao do estoque fisico']},
   {id:'lucasg',   name:'Lucas G.',  role:'Auxiliar de Logistica',   dept:'G', initials:'LG', parent:'sergio',
@@ -188,6 +190,7 @@ var POS = {
   miriam:    {x: 1205,y: 360},
   sdr1:      {x: 1400,y: 360},
   sdr2:      {x: 1595,y: 360},
+  pedro:     {x: 690, y: 180},
   sergio:    {x: 1790,y: 360},
   // nivel 3
   karina:    {x: 130, y: 560},
@@ -272,6 +275,18 @@ window.addEventListener('load', function(){
   // Valdomiro -> Rafael
   var b=cardBottom('valdomiro'), t=cardTop('rafael');
   drawLine(svg, b.x,b.y, t.x,t.y, LINE_COLOR.L);
+
+  // Valdomiro -> Pedro (linha pontilhada — trainee)
+  var bV2=cardBottom('valdomiro'), tP=cardTop('pedro');
+  var pathP = document.createElementNS('http://www.w3.org/2000/svg','path');
+  var midP = (bV2.y+tP.y)/2;
+  pathP.setAttribute('d','M'+bV2.x+' '+bV2.y+' C'+bV2.x+' '+midP+','+tP.x+' '+midP+','+tP.x+' '+tP.y);
+  pathP.setAttribute('stroke','#2F855A');
+  pathP.setAttribute('stroke-width','2');
+  pathP.setAttribute('fill','none');
+  pathP.setAttribute('stroke-dasharray','5,4');
+  pathP.setAttribute('opacity','0.5');
+  svg.appendChild(pathP);
 
   // Rafael -> nivel 2
   ['tarsilla','neusa','lucask','leticia','thiago','bruna','miriam','sdr1','sdr2','sergio'].forEach(function(id){
@@ -410,6 +425,12 @@ window.addEventListener('load', function(){
         <div class="card-dept">Comercial</div>
         <div class="card-top"><div class="avatar">S2</div><div><div class="card-name">SDR 2</div><div class="card-role">Pre-vendas</div><div class="ec-badge">Em contratacao</div></div></div>
         <ul class="card-fns"><li>Prospeccao ativa</li><li>Qualificacao de leads</li><li>Agendamento de contatos</li><li>Suporte ao time comercial</li></ul>
+      </div>
+      <div class="org-card card-V" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Comercial</div>
+        <div class="card-top"><div class="avatar">PE</div><div><div class="card-name">Pedro</div><div class="card-role">Vendedor Trainee</div><div class="ec-badge" style="background:#EBF8FF;color:#2B6CB0">Trainee</div></div></div>
+        <ul class="card-fns"><li>Vendedor em treinamento</li><li>Aprendizado dos processos comerciais</li><li>Desenvolvimento de carteira</li><li>Sem meta definida para 2026</li></ul>
       </div>
     </div>
   </div>
