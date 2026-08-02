@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Folha Salarial — Leblon Rolamentos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1e2228;color:#f0f4f8;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1B2A4A,#2D5986);padding:.8rem 1.4rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:100}
+.logo{font-size:15px;font-weight:800;color:#fff}.logo b{color:#63B3ED}
+.links{display:flex;gap:8px}
+.back{font-size:11px;color:#fff;text-decoration:none;padding:5px 12px;border:1px solid #ffffff44;border-radius:6px}
+.back:hover{background:#ffffff22}
+
+.page{padding:1.5rem;max-width:900px;margin:0 auto}
+.ptit{font-size:22px;font-weight:700;color:#f0f4f8;margin-bottom:.2rem}
+.psub{font-size:12px;color:#8b98a8;margin-bottom:1.8rem}
+
+/* TOTAIS */
+.totais{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:2rem}
+.tot-card{background:#2a2f38;border-radius:12px;padding:1rem 1.2rem;border-top:3px solid}
+.tot-card .lb{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.tot-card .vl{font-size:22px;font-weight:800;color:#fff}
+.tot-card .sb{font-size:11px;margin-top:4px}
+
+/* GRUPOS */
+.grupo{margin-bottom:2rem}
+.grupo-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.5rem 1rem;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center}
+.grupo-total{font-size:13px;font-weight:800}
+.grupo-body{background:#2a2f38;border-radius:0 0 10px 10px;overflow:hidden}
+
+/* TABELA */
+table{width:100%;border-collapse:collapse}
+th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:10px 14px;border-bottom:1px solid #3a404a;text-align:left}
+td{padding:10px 14px;border-bottom:1px solid #323840;font-size:13px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#323840}
+.sal{font-weight:700;color:#34D399;font-size:14px}
+.fn-badge{font-size:10px;padding:2px 8px;border-radius:99px;font-weight:600;display:inline-block}
+.adm{font-size:11px;color:#8b98a8}
+
+/* TOTAL GERAL */
+.total-geral{background:linear-gradient(135deg,#1B2A4A,#2D5986);border-radius:12px;padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;margin-top:1rem}
+.tg-label{font-size:13px;font-weight:700;color:#63B3ED;text-transform:uppercase;letter-spacing:.08em}
+.tg-valor{font-size:28px;font-weight:800;color:#fff}
+.tg-sub{font-size:11px;color:#8b98a8;margin-top:2px}
+
+@media(max-width:600px){
+  .totais{grid-template-columns:repeat(2,1fr)}
+  .tot-card .vl{font-size:17px}
+  .tg-valor{font-size:22px}
+  td,th{padding:8px 10px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="logo">Leblon <b>Rolamentos</b></div>
+  <div class="links">
+    <a class="back" href="organograma.html">Organograma</a>
+    <a class="back" href="index.html">&#8592; Dashboard</a>
+  </div>
+</div>
+
+<div class="page">
+  <div class="ptit">Folha Salarial Fixa</div>
+  <div class="psub">Custo fixo mensal de pessoal — Grupo Leblon Rolamentos</div>
+
+  <!-- Cards de total -->
+  <div class="totais">
+    <div class="tot-card" style="border-color:#378ADD">
+      <div class="lb" style="color:#63B3ED">CLT / Operacional</div>
+      <div class="vl">R$ 21.610</div>
+      <div class="sb" style="color:#8b98a8">7 colaboradores</div>
+    </div>
+    <div class="tot-card" style="border-color:#9F7AEA">
+      <div class="lb" style="color:#9F7AEA">Diretoria / Pro-labore</div>
+      <div class="vl">R$ 45.667</div>
+      <div class="sb" style="color:#8b98a8">6 pessoas</div>
+    </div>
+    <div class="tot-card" style="border-color:#F59E0B">
+      <div class="lb" style="color:#F59E0B">Logistica / Expedicao</div>
+      <div class="vl">R$ 15.800</div>
+      <div class="sb" style="color:#8b98a8">4 colaboradores</div>
+    </div>
+    <div class="tot-card" style="border-color:#34D399">
+      <div class="lb" style="color:#34D399">Total Folha</div>
+      <div class="vl" style="color:#34D399">R$ 83.078</div>
+      <div class="sb" style="color:#8b98a8">17 pessoas</div>
+    </div>
+  </div>
+
+  <!-- GRUPO 1: CLT Operacional -->
+  <div class="grupo">
+    <div class="grupo-title" style="background:#0c1a2d;color:#63B3ED">
+      <span>CLT / Operacional</span>
+      <span class="grupo-total" style="color:#63B3ED">R$ 21.610,85</span>
+    </div>
+    <div class="grupo-body">
+      <table>
+        <thead>
+          <tr>
+            <th style="color:#8b98a8">Nome</th>
+            <th style="color:#8b98a8">Funcao</th>
+            <th style="color:#8b98a8">Salario</th>
+            <th style="color:#8b98a8">Admissao</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Thiago Custodio de Azevedo</td>
+            <td><span class="fn-badge" style="background:#0a1e14;color:#34D399">Vendedor</span></td>
+            <td class="sal">R$ 3.505,95</td>
+            <td class="adm">03/04/2017</td>
+          </tr>
+          <tr>
+            <td>Leticia de Almeida Farias</td>
+            <td><span class="fn-badge" style="background:#0a1e14;color:#34D399">Vendedor</span></td>
+            <td class="sal">R$ 3.116,40</td>
+            <td class="adm">03/07/2017</td>
+          </tr>
+          <tr>
+            <td>Karina Santana de Jesus</td>
+            <td><span class="fn-badge" style="background:#1a1030;color:#9F7AEA">Assist. Financeiro</span></td>
+            <td class="sal">R$ 2.912,88</td>
+            <td class="adm">25/02/2019</td>
+          </tr>
+          <tr>
+            <td>Rafael Henrique Neves de Souza</td>
+            <td><span class="fn-badge" style="background:#1e1800;color:#F59E0B">Motofretista</span></td>
+            <td class="sal">R$ 4.085,55</td>
+            <td class="adm">01/03/2018</td>
+          </tr>
+          <tr>
+            <td>Bruna Cristina Barros de Souza</td>
+            <td><span class="fn-badge" style="background:#0a1e14;color:#34D399">Supervisor de Vendas</span></td>
+            <td class="sal">R$ 3.065,00</td>
+            <td class="adm">18/07/2022</td>
+          </tr>
+          <tr>
+            <td>Irene Aparecida Bassi da Cruz</td>
+            <td><span class="fn-badge" style="background:#161b22;color:#8b98a8">Faxineiro(a)</span></td>
+            <td class="sal">R$ 2.285,07</td>
+            <td class="adm">08/12/2022</td>
+          </tr>
+          <tr>
+            <td>Lucas Kalfman</td>
+            <td><span class="fn-badge" style="background:#251500;color:#FB923C">Comprador</span></td>
+            <td class="sal">R$ 2.640,00</td>
+            <td class="adm">09/09/2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GRUPO 2: Diretoria / Pro-labore -->
+  <div class="grupo">
+    <div class="grupo-title" style="background:#1a1030;color:#9F7AEA">
+      <span>Diretoria / Pro-labore</span>
+      <span class="grupo-total" style="color:#9F7AEA">R$ 45.667,68</span>
+    </div>
+    <div class="grupo-body">
+      <table>
+        <thead>
+          <tr>
+            <th style="color:#8b98a8">Nome</th>
+            <th style="color:#8b98a8">Cargo</th>
+            <th style="color:#8b98a8">Salario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Valdomiro</td>
+            <td><span class="fn-badge" style="background:#0c1a2d;color:#63B3ED">CEO e Fundador</span></td>
+            <td class="sal">R$ 13.974,00</td>
+          </tr>
+          <tr>
+            <td>Maria do Carmo</td>
+            <td><span class="fn-badge" style="background:#0c1a2d;color:#63B3ED">Diretoria</span></td>
+            <td class="sal">R$ 8.227,76</td>
+          </tr>
+          <tr>
+            <td>Neusa</td>
+            <td><span class="fn-badge" style="background:#1a1030;color:#9F7AEA">Gestora Financeira LBN</span></td>
+            <td class="sal">R$ 8.227,76</td>
+          </tr>
+          <tr>
+            <td>Rafael</td>
+            <td><span class="fn-badge" style="background:#0c1a2d;color:#63B3ED">Diretor Geral</span></td>
+            <td class="sal">R$ 5.210,40</td>
+          </tr>
+          <tr>
+            <td>Tarsilla</td>
+            <td><span class="fn-badge" style="background:#1a1030;color:#9F7AEA">Diretora Financeira</span></td>
+            <td class="sal">R$ 8.227,76</td>
+          </tr>
+          <tr>
+            <td>Pedro</td>
+            <td><span class="fn-badge" style="background:#0a1e14;color:#34D399">Vendedor Trainee</span></td>
+            <td class="sal">R$ 1.800,00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GRUPO 3: Logistica -->
+  <div class="grupo">
+    <div class="grupo-title" style="background:#1e1800;color:#F59E0B">
+      <span>Logistica / Expedicao</span>
+      <span class="grupo-total" style="color:#F59E0B">R$ 15.800,00</span>
+    </div>
+    <div class="grupo-body">
+      <table>
+        <thead>
+          <tr>
+            <th style="color:#8b98a8">Nome</th>
+            <th style="color:#8b98a8">Funcao</th>
+            <th style="color:#8b98a8">Salario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Antonio Sergio</td>
+            <td><span class="fn-badge" style="background:#1e1800;color:#F59E0B">Expedicao</span></td>
+            <td class="sal">R$ 5.000,00</td>
+          </tr>
+          <tr>
+            <td>Sergio Henrique</td>
+            <td><span class="fn-badge" style="background:#1e1800;color:#F59E0B">Expedicao</span></td>
+            <td class="sal">R$ 3.500,00</td>
+          </tr>
+          <tr>
+            <td>Marcos Antonio</td>
+            <td><span class="fn-badge" style="background:#1e1800;color:#F59E0B">Motoboy</span></td>
+            <td class="sal">R$ 3.500,00</td>
+          </tr>
+          <tr>
+            <td>Lucas Santos</td>
+            <td><span class="fn-badge" style="background:#1e1800;color:#F59E0B">Expedicao</span></td>
+            <td class="sal">R$ 3.800,00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TOTAL GERAL -->
+  <div class="total-geral">
+    <div>
+      <div class="tg-label">Total Folha de Pagamento</div>
+      <div class="tg-sub">Custo fixo mensal — todas as empresas do grupo</div>
+    </div>
+    <div style="text-align:right">
+      <div class="tg-valor">R$ 83.078,53</div>
+      <div class="tg-sub">17 pessoas</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
