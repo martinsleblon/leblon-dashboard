@@ -52,11 +52,32 @@ tr:hover td{background:#323840}
   .tg-valor{font-size:22px}
   td,th{padding:8px 10px;font-size:12px}
 }
+
+#login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#1e2228;z-index:9999;display:flex;align-items:center;justify-content:center}
+.login-box{background:#2a2f38;border:1px solid #3a404a;border-radius:16px;padding:2.5rem 2rem;width:320px;max-width:90vw;text-align:center}
+.login-logo{font-size:20px;font-weight:800;color:#fff;margin-bottom:.3rem}.login-logo b{color:#63B3ED}
+.login-sub{font-size:12px;color:#8b98a8;margin-bottom:2rem}
+.login-field{width:100%;background:#1e2228;border:1px solid #3a404a;border-radius:8px;padding:.7rem 1rem;color:#f0f4f8;font-size:14px;margin-bottom:.8rem;outline:none;text-align:center}
+.login-field:focus{border-color:#378ADD}
+.login-btn{width:100%;background:#378ADD;border:none;border-radius:8px;padding:.8rem;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:.4rem}
+.login-btn:hover{background:#2B6CB0}
+.login-err{color:#FC8181;font-size:12px;margin-top:.8rem;min-height:18px}
+.login-lock{font-size:36px;margin-bottom:1rem}
 </style>
 </head>
 <body>
 
-<div class="hdr">
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-lock">&#128274;</div>
+    <div class="login-logo">Leblon <b>Rolamentos</b></div>
+    <div class="login-sub">Acesso restrito &mdash; Diretoria</div>
+    <input class="login-field" id="lg-user" type="text" placeholder="Login" autocomplete="off" autocapitalize="none">
+    <input class="login-field" id="lg-pass" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="lg-err"></div>
+  </div>
+</div><div class="hdr">
   <div class="logo">Leblon <b>Rolamentos</b></div>
   <div class="links">
     <a class="back" href="organograma.html">Organograma</a>
@@ -266,5 +287,28 @@ tr:hover td{background:#323840}
   </div>
 
 </div>
+<script>
+(function(){
+  var K='lb_auth_v1',U='leblon',P='industria1097';
+  function doLogin(){
+    var u=document.getElementById('lg-user').value.trim().toLowerCase();
+    var p=document.getElementById('lg-pass').value.trim();
+    if(u===U&&p===P){
+      try{sessionStorage.setItem(K,'1');}catch(e){}
+      document.getElementById('login-screen').style.display='none';
+    } else {
+      document.getElementById('lg-err').textContent='Login ou senha incorretos.';
+      document.getElementById('lg-pass').value='';
+    }
+  }
+  window.doLogin=doLogin;
+  var ok=false;
+  try{ok=sessionStorage.getItem(K)==='1';}catch(e){}
+  document.addEventListener('DOMContentLoaded',function(){
+    var s=document.getElementById('login-screen');
+    if(s) s.style.display=ok?'none':'flex';
+  });
+})();
+</script>
 </body>
 </html>
