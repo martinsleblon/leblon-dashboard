@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Organograma — Leblon Rolamentos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#cdd6f4;font-size:14px;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1B2A4A,#2D5986);padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #30363d}
+.logo{font-size:15px;font-weight:800;color:#fff}.logo b{color:#63B3ED}
+.back{font-size:12px;color:#63B3ED;text-decoration:none;padding:4px 12px;border:1px solid #63B3ED;border-radius:6px}
+.back:hover{background:#63B3ED22}
+.wrap{padding:1.5rem;overflow-x:auto}
+.ptit{font-size:22px;font-weight:700;color:#fff;margin-bottom:.3rem}
+.psub{font-size:12px;color:#8b949e;margin-bottom:1.2rem}
+.leg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.leg span{font-size:10px;font-weight:600;padding:3px 10px;border-radius:99px}
+.tree{display:flex;flex-direction:column;align-items:center;min-width:900px}
+.conn-v{width:2px;height:22px;background:#30363d;margin:0 auto}
+.conn-h{height:2px;background:#30363d;margin:10px 0}
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.dept{display:flex;flex-direction:column;align-items:center;gap:8px}
+.dept-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
+.card{border-radius:10px;padding:.85rem 1rem;min-width:175px;max-width:215px;cursor:pointer;flex-shrink:0;transition:transform .12s}
+.card:hover{transform:translateY(-2px)}
+.card .dep{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.card .nm{font-size:14px;font-weight:800;color:#fff;margin-bottom:2px}
+.card .cg{font-size:11px;color:#8b949e;margin-bottom:0}
+.card .fn{display:none;margin-top:8px;border-top:1px solid #30363d;padding-top:8px}
+.card .fn ul{font-size:11px;color:#cdd6f4;padding-left:1rem;line-height:1.9}
+.card.open .fn{display:block}
+.ec-tag{font-size:9px;padding:1px 6px;border-radius:99px;background:#2d1010;color:#FC8181;margin-left:4px;vertical-align:middle}
+.sub-note{font-size:9px;color:#8b949e;text-align:center;margin:2px 0}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">Leblon <b>Rolamentos</b></div>
+  <a class="back" href="index.html">&#8592; Dashboard</a>
+</div>
+<div class="wrap">
+  <div class="ptit">Organograma</div>
+  <div class="psub">Leblon Rolamentos &mdash; Estrutura completa &mdash; August 2026</div>
+  <div class="leg">
+    <span style="background:#1B2A4A;color:#63B3ED;border:1px solid #63B3ED">Lideranca</span>
+    <span style="background:#1a0d2d;color:#9F7AEA;border:1px solid #7F77DD">Financeiro</span>
+    <span style="background:#2d1800;color:#FB923C;border:1px solid #FB923C">Compras</span>
+    <span style="background:#0d2318;color:#34D399;border:1px solid #1D9E75">Comercial</span>
+    <span style="background:#2d2010;color:#F59E0B;border:1px solid #BA7517">Logistica</span>
+  </div>
+  <div style="font-size:11px;color:#8b949e;margin-bottom:1.2rem">Clique em qualquer card para ver as funcoes.</div>
+  <div class="tree" id="tree"></div>
+</div>
+
+<script>
+var N = [{"id": "valdomiro", "nome": "Valdomiro", "cargo": "CEO e Fundador", "d": "L", "fn": ["Visao estrategica da empresa", "Decisoes societarias e de expansao", "Relacionamento com fornecedores-chave", "Aprovacao de investimentos e importacoes"]}, {"id": "rafael", "nome": "Rafael", "cargo": "Diretor Geral", "d": "L", "p": "valdomiro", "fn": ["Gestao comercial e estrategica", "Operacoes e processos internos", "Treinamento e desenvolvimento do time", "Gestao de importacoes e compras", "Indicadores e metas da empresa"]}, {"id": "tarsilla", "nome": "Tarsilla", "cargo": "Diretora Financeira", "d": "F", "p": "rafael", "fn": ["Gestao financeira Leblon Rolamentos", "Supervisao financeira LBN", "Fechamento de importacoes", "Fluxo de caixa e contas a pagar/receber", "Relatorios financeiros consolidados"]}, {"id": "neusa", "nome": "Neusa", "cargo": "Gestora Financeira LBN", "d": "F", "p": "rafael", "fn": ["Gestao financeira LBN", "Contas a pagar e receber LBN", "Controle de notas fiscais", "Suporte a Diretoria Financeira"]}, {"id": "karina", "nome": "Karina", "cargo": "Auxiliar Financeira", "d": "F", "p2": ["tarsilla", "neusa"], "fn": ["Suporte financeiro Leblon e LBN", "Lancamentos e conciliacoes", "Organizacao de documentos fiscais", "Apoio a Tarsilla e Neusa"]}, {"id": "irene", "nome": "Irene", "cargo": "Servicos Gerais", "d": "F", "p": "neusa", "fn": ["Limpeza e organizacao do escritorio", "Conservacao do ambiente de trabalho"]}, {"id": "lucask", "nome": "Lucas Kauffman", "cargo": "Compras", "d": "C", "p": "rafael", "fn": ["Gestao de pedidos de compra", "Relacionamento com fornecedores", "Controle de estoque e reposicao", "Suporte ao planejamento de importacao"]}, {"id": "leticia", "nome": "Leticia", "cargo": "Consultora Comercial", "d": "V", "p": "rafael", "fn": ["Prospeccao e atendimento de clientes", "Gestao da carteira ativa", "Negociacao e fechamento de pedidos", "Foco LBN ID 91% do mix"]}, {"id": "thiago", "nome": "Thiago", "cargo": "Consultor Comercial", "d": "V", "p": "rafael", "fn": ["Prospeccao e atendimento de clientes", "Gestao da carteira ativa", "Negociacao e fechamento de pedidos", "Mix 60% LBN ID"]}, {"id": "bruna", "nome": "Bruna", "cargo": "Consultora Comercial", "d": "V", "p": "rafael", "fn": ["Prospeccao e atendimento de clientes", "Gestao de grandes contas", "Negociacao e fechamento de pedidos", "Maior carteira acumulada 2026"]}, {"id": "miriam", "nome": "Miriam", "cargo": "Consultora Comercial", "d": "V", "p": "rafael", "fn": ["Prospeccao e atendimento de clientes", "Gestao da carteira ativa", "Negociacao e fechamento de pedidos", "Maior volume de pedidos 2026"]}, {"id": "sdr1", "nome": "SDR 1", "cargo": "Pre-vendas", "d": "V", "p": "rafael", "fn": ["Prospeccao ativa de novos clientes", "Qualificacao de leads", "Agendamento de contatos", "Suporte ao time comercial"]}, {"id": "sdr2", "nome": "SDR 2", "cargo": "Pre-vendas", "d": "V", "p": "rafael", "ec": true, "fn": ["Prospeccao ativa de novos clientes", "Qualificacao de leads", "Agendamento de contatos", "Suporte ao time comercial"]}, {"id": "sergio", "nome": "Sergio", "cargo": "Responsavel de Logistica", "d": "G", "p": "rafael", "fn": ["Gestao das operacoes de logistica", "Coordenacao da equipe de entrega", "Controle de expedicao e recebimento", "Organizacao do estoque fisico"]}, {"id": "lucasg", "nome": "Lucas Garbeto", "cargo": "Auxiliar de Logistica", "d": "G", "p": "sergio", "fn": ["Separacao e conferencia de pedidos", "Apoio a expedicao", "Organizacao do estoque"]}, {"id": "henrique", "nome": "Henrique", "cargo": "Auxiliar de Logistica", "d": "G", "p": "sergio", "fn": ["Separacao e conferencia de pedidos", "Apoio a expedicao", "Organizacao do estoque"]}, {"id": "marcos", "nome": "Marcos", "cargo": "Motoboy", "d": "G", "p": "sergio", "fn": ["Entregas externas", "Coletas e retiradas", "Suporte a logistica"]}, {"id": "rafinha", "nome": "Rafinha", "cargo": "Motoboy", "d": "G", "p": "sergio", "fn": ["Entregas externas", "Coletas e retiradas", "Suporte a logistica"]}];
+var COR = {
+  L: {bg:'#1B2A4A',bd:'#63B3ED',badge:'#378ADD',label:'Lideranca'},
+  F: {bg:'#1a0d2d',bd:'#7F77DD',badge:'#9F7AEA',label:'Financeiro'},
+  C: {bg:'#2d1800',bd:'#FB923C',badge:'#E67E22',label:'Compras'},
+  V: {bg:'#0d2318',bd:'#1D9E75',badge:'#34D399',label:'Comercial'},
+  G: {bg:'#2d2010',bd:'#BA7517',badge:'#F59E0B',label:'Logistica'}
+};
+
+function byId(id) {
+  for (var i=0; i<N.length; i++) if (N[i].id===id) return N[i];
+  return null;
+}
+
+function makeCard(n) {
+  var c = COR[n.d];
+  var el = document.createElement('div');
+  el.className = 'card';
+  el.style.cssText = 'background:'+c.bg+';border:2px solid '+c.bd;
+  if (n.ec) el.style.opacity = '0.6';
+
+  var dep = document.createElement('div');
+  dep.className = 'dep';
+  dep.style.color = c.badge;
+  dep.textContent = c.label;
+
+  var nm = document.createElement('div');
+  nm.className = 'nm';
+  nm.textContent = n.nome;
+  if (n.ec) {
+    var tag = document.createElement('span');
+    tag.className = 'ec-tag';
+    tag.textContent = 'Contratando';
+    nm.appendChild(tag);
+  }
+
+  var cg = document.createElement('div');
+  cg.className = 'cg';
+  cg.textContent = n.cargo;
+
+  var fn = document.createElement('div');
+  fn.className = 'fn';
+  var ul = document.createElement('ul');
+  n.fn.forEach(function(f) {
+    var li = document.createElement('li');
+    li.textContent = f;
+    ul.appendChild(li);
+  });
+  fn.appendChild(ul);
+
+  el.appendChild(dep);
+  el.appendChild(nm);
+  el.appendChild(cg);
+  el.appendChild(fn);
+
+  el.addEventListener('click', function() {
+    el.classList.toggle('open');
+  });
+
+  return el;
+}
+
+function connV() {
+  var d = document.createElement('div');
+  d.className = 'conn-v';
+  return d;
+}
+
+function row(ids) {
+  var d = document.createElement('div');
+  d.className = 'row';
+  ids.forEach(function(id) { d.appendChild(makeCard(byId(id))); });
+  return d;
+}
+
+function dept(label, color, inner) {
+  var d = document.createElement('div');
+  d.className = 'dept';
+  var lbl = document.createElement('div');
+  lbl.className = 'dept-label';
+  lbl.style.color = color;
+  lbl.textContent = label;
+  d.appendChild(lbl);
+  if (Array.isArray(inner)) {
+    inner.forEach(function(el) { d.appendChild(el); });
+  } else {
+    d.appendChild(inner);
+  }
+  return d;
+}
+
+function note(txt) {
+  var d = document.createElement('div');
+  d.className = 'sub-note';
+  d.textContent = txt;
+  return d;
+}
+
+function build() {
+  var tree = document.getElementById('tree');
+
+  // Topo: Valdomiro
+  tree.appendChild(makeCard(byId('valdomiro')));
+  tree.appendChild(connV());
+
+  // Rafael
+  tree.appendChild(makeCard(byId('rafael')));
+
+  // Linha horizontal
+  var hr = document.createElement('div');
+  hr.className = 'conn-h';
+  hr.style.width = '100%';
+  tree.appendChild(hr);
+
+  // Nivel 3 — 4 departamentos
+  var nivel3 = document.createElement('div');
+  nivel3.className = 'row';
+  nivel3.style.alignItems = 'flex-start';
+  nivel3.style.gap = '20px';
+
+  // FINANCEIRO
+  var fin = dept('Financeiro', '#9F7AEA', [
+    row(['tarsilla','neusa']),
+    note('suporte duplo'),
+    makeCard(byId('karina')),
+    note('via Neusa'),
+    makeCard(byId('irene'))
+  ]);
+  nivel3.appendChild(fin);
+
+  // COMPRAS
+  var comp = dept('Compras', '#FB923C', [makeCard(byId('lucask'))]);
+  nivel3.appendChild(comp);
+
+  // COMERCIAL
+  var com = dept('Comercial', '#34D399', [row(['leticia','thiago','bruna','miriam','sdr1','sdr2'])]);
+  nivel3.appendChild(com);
+
+  // LOGISTICA
+  var log = dept('Logistica', '#F59E0B', [
+    makeCard(byId('sergio')),
+    row(['lucasg','henrique','marcos','rafinha'])
+  ]);
+  nivel3.appendChild(log);
+
+  tree.appendChild(nivel3);
+}
+
+build();
+</script>
+</body>
+</html>
