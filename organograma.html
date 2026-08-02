@@ -77,6 +77,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 /* SVG LINHAS */
 .org-svg{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+
+@media(max-width:700px){
+  .org-canvas{padding:.5rem 0}
+  .org-inner{min-width:unset!important;width:100%!important;height:auto!important;position:relative}
+  .org-svg{display:none}
+  .org-card{position:static!important;width:100%!important;max-width:100%!important;margin-bottom:8px}
+  .mobile-tree{display:flex;flex-direction:column;align-items:center;gap:0;padding:.5rem}
+  .mobile-level{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:4px}
+  .mobile-conn{width:2px;height:20px;background:#4a5568;margin:0 auto}
+  .mobile-section{width:100%;border-radius:10px;overflow:hidden;margin-bottom:12px}
+  .mobile-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:6px 12px;margin-bottom:8px;border-radius:6px;text-align:center}
+  .mobile-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:0 4px}
+  .mobile-row .org-card{width:calc(50% - 8px)!important;min-width:140px!important}
+}
+@media(min-width:701px){
+  .mobile-tree{display:none}
+}
 </style>
 </head>
 <body>
@@ -285,5 +302,161 @@ window.addEventListener('load', function(){
   });
 });
 </script>
+
+<div class="mobile-tree" id="mobile-tree">
+
+  <!-- Valdomiro -->
+  <div class="mobile-level">
+    <div class="org-card card-L" onclick="this.classList.toggle('open')" style="width:100%">
+      <span class="chevron">&#9660;</span>
+      <div class="card-dept">Lideranca</div>
+      <div class="card-top">
+        <div class="avatar">V</div>
+        <div><div class="card-name">Valdomiro</div><div class="card-role">CEO e Fundador</div></div>
+      </div>
+      <ul class="card-fns"><li>Visao estrategica da empresa</li><li>Decisoes societarias e de expansao</li><li>Relacionamento com fornecedores-chave</li><li>Aprovacao de investimentos</li></ul>
+    </div>
+  </div>
+  <div class="mobile-conn"></div>
+
+  <!-- Rafael -->
+  <div class="mobile-level">
+    <div class="org-card card-L" onclick="this.classList.toggle('open')" style="width:100%">
+      <span class="chevron">&#9660;</span>
+      <div class="card-dept">Lideranca</div>
+      <div class="card-top">
+        <div class="avatar">R</div>
+        <div><div class="card-name">Rafael</div><div class="card-role">Diretor Geral</div></div>
+      </div>
+      <ul class="card-fns"><li>Gestao comercial e estrategica</li><li>Operacoes e processos internos</li><li>Treinamento e desenvolvimento do time</li><li>Gestao de importacoes e compras</li><li>Indicadores e metas</li></ul>
+    </div>
+  </div>
+  <div class="mobile-conn"></div>
+
+  <!-- Financeiro -->
+  <div class="mobile-section">
+    <div class="mobile-section-title" style="background:#1a1030;color:#9F7AEA">Financeiro</div>
+    <div class="mobile-row">
+      <div class="org-card card-F" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Financeiro</div>
+        <div class="card-top"><div class="avatar">T</div><div><div class="card-name">Tarsilla</div><div class="card-role">Diretora Financeira</div></div></div>
+        <ul class="card-fns"><li>Gestao financeira Leblon Rolamentos</li><li>Supervisao financeira LBN</li><li>Fechamento de importacoes</li><li>Fluxo de caixa</li><li>Relatorios financeiros consolidados</li></ul>
+      </div>
+      <div class="org-card card-F" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Financeiro</div>
+        <div class="card-top"><div class="avatar">N</div><div><div class="card-name">Neusa</div><div class="card-role">Gestora Financeira LBN</div></div></div>
+        <ul class="card-fns"><li>Gestao financeira LBN</li><li>Contas a pagar e receber LBN</li><li>Controle de notas fiscais</li><li>Suporte a Diretoria Financeira</li></ul>
+      </div>
+      <div class="org-card card-F" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Financeiro</div>
+        <div class="card-top"><div class="avatar">K</div><div><div class="card-name">Karina</div><div class="card-role">Auxiliar Financeira</div></div></div>
+        <ul class="card-fns"><li>Suporte financeiro Leblon e LBN</li><li>Lancamentos e conciliacoes</li><li>Organizacao de documentos fiscais</li><li>Apoio a Tarsilla e Neusa</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compras -->
+  <div class="mobile-section">
+    <div class="mobile-section-title" style="background:#251500;color:#FB923C">Compras</div>
+    <div class="mobile-row">
+      <div class="org-card card-C" onclick="this.classList.toggle('open')" style="width:100%">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Compras</div>
+        <div class="card-top"><div class="avatar">LK</div><div><div class="card-name">Lucas Kauffman</div><div class="card-role">Compras</div></div></div>
+        <ul class="card-fns"><li>Gestao de pedidos de compra</li><li>Relacionamento com fornecedores</li><li>Controle de estoque e reposicao</li><li>Suporte ao planejamento de importacao</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comercial -->
+  <div class="mobile-section">
+    <div class="mobile-section-title" style="background:#0a1e14;color:#34D399">Comercial</div>
+    <div class="mobile-row">
+      <div class="org-card card-V" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Comercial</div>
+        <div class="card-top"><div class="avatar">LE</div><div><div class="card-name">Leticia</div><div class="card-role">Consultora Comercial</div></div></div>
+        <ul class="card-fns"><li>Prospeccao e atendimento</li><li>Gestao da carteira ativa</li><li>Negociacao e fechamento</li><li>Foco LBN ID 91%</li></ul>
+      </div>
+      <div class="org-card card-V" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Comercial</div>
+        <div class="card-top"><div class="avatar">TH</div><div><div class="card-name">Thiago</div><div class="card-role">Consultor Comercial</div></div></div>
+        <ul class="card-fns"><li>Prospeccao e atendimento</li><li>Gestao da carteira ativa</li><li>Negociacao e fechamento</li><li>Mix 60% LBN ID</li></ul>
+      </div>
+      <div class="org-card card-V" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Comercial</div>
+        <div class="card-top"><div class="avatar">BR</div><div><div class="card-name">Bruna</div><div class="card-role">Consultora Comercial</div></div></div>
+        <ul class="card-fns"><li>Prospeccao e atendimento</li><li>Gestao de grandes contas</li><li>Negociacao e fechamento</li><li>Maior carteira 2026</li></ul>
+      </div>
+      <div class="org-card card-V" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Comercial</div>
+        <div class="card-top"><div class="avatar">MI</div><div><div class="card-name">Miriam</div><div class="card-role">Consultora Comercial</div></div></div>
+        <ul class="card-fns"><li>Prospeccao e atendimento</li><li>Gestao da carteira ativa</li><li>Negociacao e fechamento</li><li>Maior volume de pedidos 2026</li></ul>
+      </div>
+      <div class="org-card card-V" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Comercial</div>
+        <div class="card-top"><div class="avatar">S1</div><div><div class="card-name">SDR 1</div><div class="card-role">Pre-vendas</div></div></div>
+        <ul class="card-fns"><li>Prospeccao ativa</li><li>Qualificacao de leads</li><li>Agendamento de contatos</li><li>Suporte ao time comercial</li></ul>
+      </div>
+      <div class="org-card card-V" onclick="this.classList.toggle('open')" style="opacity:.65">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Comercial</div>
+        <div class="card-top"><div class="avatar">S2</div><div><div class="card-name">SDR 2</div><div class="card-role">Pre-vendas</div><div class="ec-badge">Em contratacao</div></div></div>
+        <ul class="card-fns"><li>Prospeccao ativa</li><li>Qualificacao de leads</li><li>Agendamento de contatos</li><li>Suporte ao time comercial</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logistica -->
+  <div class="mobile-section">
+    <div class="mobile-section-title" style="background:#1e1800;color:#F59E0B">Logistica</div>
+    <div class="mobile-row">
+      <div class="org-card card-G" onclick="this.classList.toggle('open')" style="width:100%">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Logistica</div>
+        <div class="card-top"><div class="avatar">SE</div><div><div class="card-name">Sergio</div><div class="card-role">Resp. de Logistica</div></div></div>
+        <ul class="card-fns"><li>Gestao das operacoes de logistica</li><li>Coordenacao da equipe de entrega</li><li>Controle de expedicao</li><li>Organizacao do estoque fisico</li></ul>
+      </div>
+      <div class="org-card card-G" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Logistica</div>
+        <div class="card-top"><div class="avatar">LG</div><div><div class="card-name">Lucas Garbeto</div><div class="card-role">Auxiliar de Logistica</div></div></div>
+        <ul class="card-fns"><li>Separacao e conferencia</li><li>Apoio a expedicao</li><li>Organizacao do estoque</li></ul>
+      </div>
+      <div class="org-card card-G" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Logistica</div>
+        <div class="card-top"><div class="avatar">HE</div><div><div class="card-name">Henrique</div><div class="card-role">Auxiliar de Logistica</div></div></div>
+        <ul class="card-fns"><li>Separacao e conferencia</li><li>Apoio a expedicao</li><li>Organizacao do estoque</li></ul>
+      </div>
+      <div class="org-card card-G" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Logistica</div>
+        <div class="card-top"><div class="avatar">MA</div><div><div class="card-name">Marcos</div><div class="card-role">Motoboy</div></div></div>
+        <ul class="card-fns"><li>Entregas externas</li><li>Coletas e retiradas</li><li>Suporte a logistica</li></ul>
+      </div>
+      <div class="org-card card-G" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Logistica</div>
+        <div class="card-top"><div class="avatar">RA</div><div><div class="card-name">Rafinha</div><div class="card-role">Motoboy</div></div></div>
+        <ul class="card-fns"><li>Entregas externas</li><li>Coletas e retiradas</li><li>Suporte a logistica</li></ul>
+      </div>
+      <div class="org-card card-S" onclick="this.classList.toggle('open')">
+        <span class="chevron">&#9660;</span>
+        <div class="card-dept">Apoio</div>
+        <div class="card-top"><div class="avatar">IR</div><div><div class="card-name">Irene</div><div class="card-role">Servicos Gerais</div></div></div>
+        <ul class="card-fns"><li>Limpeza e organizacao do escritorio</li><li>Conservacao do ambiente</li></ul>
+      </div>
+    </div>
+  </div>
+
+</div>
 </body>
 </html>
