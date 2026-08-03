@@ -197,7 +197,7 @@ function fmt(v){
 
 async function carregarDados(){
   try{
-    var resp = await fetch(SUPA_URL+'/rest/v1/saldos_bancarios?select=*&order=empresa,banco', {
+    var resp = await fetch(SUPA_URL+'/rest/v1/saldos_bancarios?select=*&order=empresa,ordem,banco', {
       headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
     });
     dados = await resp.json();
