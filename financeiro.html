@@ -113,8 +113,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="ultima-atu" id="ultima-atu">Carregando...</div>
 
   <!-- TOTAIS BANCOS -->
-  <div style="font-size:10px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Saldos Bancários</div>
-  <div class="totais" style="margin-bottom:.8rem">
+  <div style="font-size:11px;font-weight:700;color:#34D399;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;padding-left:4px">&#9654; SALDOS BANCÁRIOS</div>
+  <div class="totais" style="margin-bottom:1.2rem">
     <div class="tot" style="border-color:#34D399">
       <div class="lb" style="color:#34D399">Leblon Rolamentos</div>
       <div class="vl" id="tot-leblon">R$ 0</div>
@@ -125,27 +125,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="vl" id="tot-lbn">R$ 0</div>
       <div class="sb">Bradesco + Itaú + Brasil</div>
     </div>
-    <div class="tot" style="border-color:#63B3ED">
-      <div class="lb" style="color:#63B3ED">Consolidado Bancos</div>
-      <div class="vl" id="tot-grupo">R$ 0</div>
+    <div class="tot" style="border-color:#63B3ED;background:#0c1a2d">
+      <div class="lb" style="color:#63B3ED;font-size:11px;font-weight:800;letter-spacing:.05em">CONSOLIDADO GRUPO BANCOS</div>
+      <div class="vl" style="color:#63B3ED" id="tot-grupo">R$ 0</div>
       <div class="sb">Leblon + LBN</div>
     </div>
   </div>
-  <!-- TOTAIS INVESTIMENTOS -->
-  <div style="font-size:10px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Investimentos</div>
-  <div class="totais" style="grid-template-columns:repeat(2,1fr);max-width:580px;margin-bottom:1.5rem">
+  <div style="font-size:11px;font-weight:700;color:#F59E0B;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;padding-left:4px">&#9654; INVESTIMENTOS</div>
+  <div class="totais" style="margin-bottom:1.5rem">
     <div class="tot" style="border-color:#F59E0B">
-      <div class="lb" style="color:#F59E0B">Investimento Importação</div>
-      <div class="vl" id="tot-inv-leblon">R$ 0</div>
-      <div class="sb">Leblon Rolamentos</div>
+      <div class="lb" style="color:#F59E0B">Leblon Rolamentos</div>
+      <div class="vl" style="color:#F59E0B" id="tot-inv-leblon">R$ 0</div>
+      <div class="sb">Investimento Importação</div>
     </div>
     <div class="tot" style="border-color:#F59E0B">
-      <div class="lb" style="color:#F59E0B">Investimento Importação</div>
-      <div class="vl" id="tot-inv-lbn">R$ 0</div>
-      <div class="sb">LBN</div>
+      <div class="lb" style="color:#F59E0B">LBN</div>
+      <div class="vl" style="color:#F59E0B" id="tot-inv-lbn">R$ 0</div>
+      <div class="sb">Investimento Importação</div>
+    </div>
+    <div class="tot" style="border-color:#F59E0B;background:#1a1000">
+      <div class="lb" style="color:#F59E0B;font-size:11px;font-weight:800;letter-spacing:.05em">CONSOLIDADO GRUPO INVESTIMENTO</div>
+      <div class="vl" style="color:#F59E0B" id="tot-inv-grupo">R$ 0</div>
+      <div class="sb">Leblon + LBN</div>
     </div>
   </div>
-
   <!-- LEBLON -->
   <div class="emp-sec">
     <div class="emp-title" style="background:#0d2318;color:#34D399">
@@ -246,6 +249,7 @@ function renderDados(){
   document.getElementById('tot-grupo').textContent=fmt(totG);
   document.getElementById('tot-inv-leblon').textContent=fmt(totIL);
   document.getElementById('tot-inv-lbn').textContent=fmt(totIN);
+  document.getElementById('tot-inv-grupo').textContent=fmt(totIL+totIN);
   // Ultima atualização
   var datas = dados.map(function(d){return new Date(d.atualizado_em);}).filter(function(d){return !isNaN(d);});
   if(datas.length){
