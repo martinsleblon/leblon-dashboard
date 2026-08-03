@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Financeiro — Leblon Rolamentos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#cdd6f4;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1B2A4A,#2D5986);padding:.8rem 1.4rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:100}
+.logo{font-size:15px;font-weight:800;color:#fff}.logo b{color:#63B3ED}
+.back{font-size:11px;color:#fff;text-decoration:none;padding:5px 12px;border:1px solid #ffffff44;border-radius:6px}
+.back:hover{background:#ffffff22}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:#0d1117;z-index:9999;display:flex;align-items:center;justify-content:center}
+.login-box{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:2.5rem 2rem;width:320px;max-width:90vw;text-align:center}
+.login-lock{font-size:36px;margin-bottom:1rem}
+.login-logo{font-size:18px;font-weight:800;color:#fff;margin-bottom:.3rem}.login-logo b{color:#63B3ED}
+.login-sub{font-size:12px;color:#8b949e;margin-bottom:1.5rem}
+.login-tabs{display:flex;gap:6px;margin-bottom:1.2rem;background:#0d1117;border-radius:8px;padding:4px}
+.login-tab{flex:1;padding:7px;font-size:12px;font-weight:700;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#8b949e;transition:all .15s}
+.login-tab.on{background:#161b22;color:#fff}
+.login-field{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:.7rem 1rem;color:#cdd6f4;font-size:14px;margin-bottom:.8rem;outline:none;text-align:center}
+.login-field:focus{border-color:#378ADD}
+.login-btn{width:100%;background:#378ADD;border:none;border-radius:8px;padding:.8rem;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:.2rem}
+.login-btn:hover{background:#2B6CB0}
+.login-err{color:#FC8181;font-size:12px;margin-top:.7rem;min-height:16px}
+
+/* MAIN */
+.page{padding:1.5rem;max-width:960px;margin:0 auto}
+.ptit{font-size:20px;font-weight:700;color:#fff;margin-bottom:.2rem}
+.psub{font-size:12px;color:#8b949e;margin-bottom:1.5rem}
+.badge-edit{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:#0d2318;color:#34D399;border:1px solid #1D9E75;margin-left:8px}
+.badge-view{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:#0c1a2d;color:#63B3ED;border:1px solid #378ADD;margin-left:8px}
+
+/* TOTAIS */
+.totais{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.tot{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:1rem 1.2rem;border-top:3px solid}
+.tot .lb{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.tot .vl{font-size:22px;font-weight:800;color:#fff}
+.tot .sb{font-size:11px;margin-top:4px;color:#8b949e}
+
+/* EMPRESA SECTION */
+.emp-sec{margin-bottom:1.5rem}
+.emp-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.5rem 1rem;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center}
+.emp-body{background:#161b22;border:1px solid #30363d;border-radius:0 0 12px 12px;overflow:hidden}
+.banco-row{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid #21262d;gap:12px;flex-wrap:wrap}
+.banco-row:last-child{border-bottom:none}
+.banco-nome{font-size:13px;font-weight:700;color:#fff;min-width:180px}
+.banco-saldo{font-size:18px;font-weight:800;color:#34D399;font-family:monospace;min-width:150px;text-align:right}
+.banco-meta{font-size:11px;color:#8b949e;margin-top:2px}
+.banco-edit{display:none;align-items:center;gap:8px;flex-wrap:wrap}
+.banco-input{background:#0d1117;border:1px solid #30363d;color:#cdd6f4;padding:6px 10px;border-radius:6px;font-size:13px;width:140px;font-family:monospace;outline:none}
+.banco-input:focus{border-color:#378ADD}
+.banco-obs{background:#0d1117;border:1px solid #30363d;color:#8b949e;padding:5px 10px;border-radius:6px;font-size:12px;width:200px;outline:none}
+.banco-save{background:#34D399;color:#0d1117;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer}
+.banco-save:hover{background:#2ECC71}
+.banco-cancel{background:transparent;border:1px solid #30363d;color:#8b949e;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer}
+.atu-info{font-size:10px;color:#8b949e;font-style:italic;margin-top:2px}
+
+/* INVESTIMENTO */
+.inv-row{background:#1a1030;border-bottom:1px solid #21262d}
+.inv-row .banco-saldo{color:#9F7AEA}
+
+/* LOADING */
+.loading{text-align:center;padding:2rem;color:#8b949e;font-size:13px}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid #30363d;border-top-color:#378ADD;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ATUALIZADO */
+.ultima-atu{font-size:11px;color:#8b949e;margin-bottom:1rem;padding:.5rem .8rem;background:#161b22;border-radius:6px;border-left:3px solid #30363d;display:inline-block}
+
+/* MOBILE */
+@media(max-width:600px){
+  .totais{grid-template-columns:repeat(2,1fr)}
+  .tot .vl{font-size:17px}
+  .banco-row{flex-direction:column;align-items:flex-start}
+  .banco-saldo{text-align:left}
+  .page{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-lock">🏦</div>
+    <div class="login-logo">Leblon <b>Rolamentos</b></div>
+    <div class="login-sub">Painel Financeiro — Acesso restrito</div>
+    <div class="login-tabs">
+      <button class="login-tab on" onclick="setRole('view',this)">👁 Visualizar</button>
+      <button class="login-tab" onclick="setRole('edit',this)">✏️ Editar</button>
+    </div>
+    <input class="login-field" id="lg-pass" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="lg-err"></div>
+  </div>
+</div>
+
+<div class="hdr">
+  <div class="logo">Leblon <b>Rolamentos</b></div>
+  <a class="back" href="index.html">← Dashboard</a>
+</div>
+
+<div class="page" id="main-page" style="display:none">
+  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:.3rem">
+    <div class="ptit">Painel Financeiro</div>
+    <span id="role-badge"></span>
+  </div>
+  <div class="psub">Saldos bancários — Grupo Leblon Rolamentos</div>
+  <div class="ultima-atu" id="ultima-atu">Carregando...</div>
+
+  <!-- TOTAIS -->
+  <div class="totais">
+    <div class="tot" style="border-color:#34D399">
+      <div class="lb" style="color:#34D399">Leblon Rolamentos</div>
+      <div class="vl" id="tot-leblon">R$ 0</div>
+      <div class="sb">Total bancos</div>
+    </div>
+    <div class="tot" style="border-color:#9F7AEA">
+      <div class="lb" style="color:#9F7AEA">LBN</div>
+      <div class="vl" id="tot-lbn">R$ 0</div>
+      <div class="sb">Total bancos</div>
+    </div>
+    <div class="tot" style="border-color:#63B3ED">
+      <div class="lb" style="color:#63B3ED">Consolidado Grupo</div>
+      <div class="vl" id="tot-grupo">R$ 0</div>
+      <div class="sb">Leblon + LBN</div>
+    </div>
+  </div>
+
+  <!-- LEBLON -->
+  <div class="emp-sec">
+    <div class="emp-title" style="background:#0d2318;color:#34D399">
+      <span>🏢 Leblon Rolamentos</span>
+      <span id="leblon-total" style="font-family:monospace;font-size:15px">R$ 0</span>
+    </div>
+    <div class="emp-body" id="leblon-bancos">
+      <div class="loading"><span class="spinner"></span>Carregando...</div>
+    </div>
+  </div>
+
+  <!-- LBN -->
+  <div class="emp-sec">
+    <div class="emp-title" style="background:#1a1030;color:#9F7AEA">
+      <span>🏢 LBN</span>
+      <span id="lbn-total" style="font-family:monospace;font-size:15px">R$ 0</span>
+    </div>
+    <div class="emp-body" id="lbn-bancos">
+      <div class="loading"><span class="spinner"></span>Carregando...</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var SUPA_URL = 'https://jfmxqrnblaoubumepcxs.supabase.co';
+var SUPA_KEY = 'sb_publishable_00X89MC5GDVxzVoJ8prIBg_Jh-UWimn';
+var PASS_VIEW = 'leblon';
+var PASS_EDIT = 'industria1097';
+var roleAtual = 'view';
+var dados = [];
+
+function setRole(r, btn){
+  roleAtual = r;
+  document.querySelectorAll('.login-tab').forEach(function(t){t.classList.remove('on');});
+  btn.classList.add('on');
+}
+
+function doLogin(){
+  var p = document.getElementById('lg-pass').value.trim();
+  var ok = false;
+  if(roleAtual==='view' && p===PASS_VIEW){ ok=true; }
+  if(roleAtual==='edit' && p===PASS_EDIT){ ok=true; }
+  // Modo view também aceita senha de edit
+  if(roleAtual==='view' && p===PASS_EDIT){ ok=true; roleAtual='edit'; }
+
+  if(ok){
+    try{sessionStorage.setItem('fin_auth',roleAtual);}catch(e){}
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('main-page').style.display='block';
+    document.getElementById('role-badge').innerHTML = roleAtual==='edit'
+      ? '<span class="badge-edit">✏️ Modo edição</span>'
+      : '<span class="badge-view">👁 Apenas visualização</span>';
+    carregarDados();
+  } else {
+    document.getElementById('lg-err').textContent='Senha incorreta.';
+    document.getElementById('lg-pass').value='';
+  }
+}
+
+function fmt(v){
+  return 'R$ '+parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+async function carregarDados(){
+  try{
+    var resp = await fetch(SUPA_URL+'/rest/v1/saldos_bancarios?select=*&order=empresa,banco', {
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
+    });
+    dados = await resp.json();
+    renderDados();
+  } catch(e){
+    document.getElementById('leblon-bancos').innerHTML='<div class="loading">Erro ao carregar dados.</div>';
+    document.getElementById('lbn-bancos').innerHTML='<div class="loading">Erro ao carregar dados.</div>';
+  }
+}
+
+function renderDados(){
+  var leblon = dados.filter(function(d){return d.empresa==='LEBLON';});
+  var lbn    = dados.filter(function(d){return d.empresa==='LBN';});
+
+  var totL = leblon.reduce(function(a,d){return a+parseFloat(d.saldo||0);},0);
+  var totN = lbn.reduce(function(a,d){return a+parseFloat(d.saldo||0);},0);
+  var totG = totL+totN;
+
+  document.getElementById('tot-leblon').textContent=fmt(totL);
+  document.getElementById('tot-lbn').textContent=fmt(totN);
+  document.getElementById('tot-grupo').textContent=fmt(totG);
+  document.getElementById('leblon-total').textContent=fmt(totL);
+  document.getElementById('lbn-total').textContent=fmt(totN);
+
+  // Ultima atualização
+  var datas = dados.map(function(d){return new Date(d.atualizado_em);}).filter(function(d){return !isNaN(d);});
+  if(datas.length){
+    var ult = new Date(Math.max.apply(null,datas));
+    document.getElementById('ultima-atu').textContent='Última atualização: '+
+      ult.toLocaleDateString('pt-BR')+' às '+ult.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  }
+
+  document.getElementById('leblon-bancos').innerHTML = renderBancos(leblon, 'LEBLON');
+  document.getElementById('lbn-bancos').innerHTML    = renderBancos(lbn, 'LBN');
+}
+
+function renderBancos(lista, empresa){
+  if(!lista.length) return '<div class="loading">Nenhum banco cadastrado.</div>';
+  return lista.map(function(d){
+    var isInv = d.banco.toLowerCase().includes('invest');
+    var saldoCor = parseFloat(d.saldo||0) >= 0 ? '#34D399' : '#FC8181';
+    if(isInv) saldoCor='#9F7AEA';
+    var atu = d.atualizado_por && d.atualizado_por!=='sistema'
+      ? 'Atualizado por '+d.atualizado_por+' em '+new Date(d.atualizado_em).toLocaleDateString('pt-BR')
+      : '';
+    var editHTML = roleAtual==='edit' ? (
+      '<div class="banco-edit" id="edit-'+d.id+'">'
+      +'<input class="banco-input" id="val-'+d.id+'" type="text" value="'+parseFloat(d.saldo||0).toFixed(2)+'" placeholder="0.00">'
+      +'<input class="banco-obs" id="obs-'+d.id+'" type="text" value="'+(d.observacao||'')+'" placeholder="Observação (opcional)">'
+      +'<button class="banco-save" onclick="salvar('+d.id+',\''+empresa+'\',\''+d.banco+'\')">Salvar</button>'
+      +'<button class="banco-cancel" onclick="cancelarEdit('+d.id+')">Cancelar</button>'
+      +'</div>'
+    ) : '';
+    var editBtn = roleAtual==='edit'
+      ? '<button onclick="abrirEdit('+d.id+')" style="font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer;white-space:nowrap">✏️ Editar</button>'
+      : '';
+    return (
+      '<div class="banco-row'+(isInv?' inv-row':'')+'">'
+      +'<div>'
+      +'<div class="banco-nome">'+(isInv?'📊 ':'')+d.banco+'</div>'
+      +(atu?'<div class="atu-info">'+atu+'</div>':'')
+      +(d.observacao?'<div class="atu-info" style="color:#63B3ED88">'+d.observacao+'</div>':'')
+      +'</div>'
+      +'<div style="text-align:right">'
+      +'<div class="banco-saldo" style="color:'+saldoCor+'">'+fmt(d.saldo)+'</div>'
+      +editBtn
+      +'</div>'
+      +editHTML
+      +'</div>'
+    );
+  }).join('');
+}
+
+function abrirEdit(id){
+  document.querySelectorAll('.banco-edit').forEach(function(el){el.style.display='none';});
+  var el=document.getElementById('edit-'+id);
+  if(el){el.style.display='flex';el.querySelector('input').focus();}
+}
+
+function cancelarEdit(id){
+  var el=document.getElementById('edit-'+id);
+  if(el)el.style.display='none';
+}
+
+async function salvar(id, empresa, banco){
+  var valEl=document.getElementById('val-'+id);
+  var obsEl=document.getElementById('obs-'+id);
+  var val=parseFloat(valEl.value.replace(',','.'));
+  if(isNaN(val)){alert('Valor inválido.');return;}
+  var obs=obsEl?obsEl.value.trim():'';
+  var por=roleAtual==='edit'?'Tarsilla':'usuario';
+
+  var btn=document.querySelector('#edit-'+id+' .banco-save');
+  if(btn){btn.textContent='Salvando...';btn.disabled=true;}
+
+  try{
+    var resp=await fetch(SUPA_URL+'/rest/v1/saldos_bancarios?id=eq.'+id,{
+      method:'PATCH',
+      headers:{
+        'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,
+        'Content-Type':'application/json','Prefer':'return=minimal'
+      },
+      body:JSON.stringify({saldo:val,atualizado_por:por,atualizado_em:new Date().toISOString(),observacao:obs})
+    });
+    if(resp.ok){
+      await carregarDados();
+    } else {
+      alert('Erro ao salvar. Tente novamente.');
+      if(btn){btn.textContent='Salvar';btn.disabled=false;}
+    }
+  } catch(e){
+    alert('Erro de conexão.');
+    if(btn){btn.textContent='Salvar';btn.disabled=false;}
+  }
+}
+
+// Verificar sessão
+(function(){
+  var s=null;
+  try{s=sessionStorage.getItem('fin_auth');}catch(e){}
+  if(s==='view'||s==='edit'){
+    roleAtual=s;
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('main-page').style.display='block';
+    document.getElementById('role-badge').innerHTML=s==='edit'
+      ?'<span class="badge-edit">✏️ Modo edição</span>'
+      :'<span class="badge-view">👁 Apenas visualização</span>';
+    carregarDados();
+  }
+})();
+
+document.getElementById('lg-pass').addEventListener('keydown',function(e){
+  if(e.key==='Enter')doLogin();
+});
+</script>
+</body>
+</html>
