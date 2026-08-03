@@ -112,22 +112,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="psub">Saldos bancários — Grupo Leblon Rolamentos</div>
   <div class="ultima-atu" id="ultima-atu">Carregando...</div>
 
-  <!-- TOTAIS -->
-  <div class="totais">
+  <!-- TOTAIS BANCOS -->
+  <div style="font-size:10px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Saldos Bancários</div>
+  <div class="totais" style="margin-bottom:.8rem">
     <div class="tot" style="border-color:#34D399">
       <div class="lb" style="color:#34D399">Leblon Rolamentos</div>
       <div class="vl" id="tot-leblon">R$ 0</div>
-      <div class="sb">Total bancos</div>
+      <div class="sb">Bradesco + Itaú + Brasil</div>
     </div>
     <div class="tot" style="border-color:#9F7AEA">
       <div class="lb" style="color:#9F7AEA">LBN</div>
       <div class="vl" id="tot-lbn">R$ 0</div>
-      <div class="sb">Total bancos</div>
+      <div class="sb">Bradesco + Itaú + Brasil</div>
     </div>
     <div class="tot" style="border-color:#63B3ED">
-      <div class="lb" style="color:#63B3ED">Consolidado Grupo</div>
+      <div class="lb" style="color:#63B3ED">Consolidado Bancos</div>
       <div class="vl" id="tot-grupo">R$ 0</div>
       <div class="sb">Leblon + LBN</div>
+    </div>
+  </div>
+  <!-- TOTAIS INVESTIMENTOS -->
+  <div style="font-size:10px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Investimentos</div>
+  <div class="totais" style="grid-template-columns:repeat(2,1fr);max-width:580px;margin-bottom:1.5rem">
+    <div class="tot" style="border-color:#F59E0B">
+      <div class="lb" style="color:#F59E0B">Investimento Importação</div>
+      <div class="vl" id="tot-inv-leblon">R$ 0</div>
+      <div class="sb">Leblon Rolamentos</div>
+    </div>
+    <div class="tot" style="border-color:#F59E0B">
+      <div class="lb" style="color:#F59E0B">Investimento Importação</div>
+      <div class="vl" id="tot-inv-lbn">R$ 0</div>
+      <div class="sb">LBN</div>
     </div>
   </div>
 
@@ -208,17 +223,29 @@ async function carregarDados(){
   }
 }
 
+function isInv(banco){return banco&&banco.toLowerCase().includes('invest');}
+
 function renderDados(){
   var leblon = dados.filter(function(d){return d.empresa==='LEBLON';});
   var lbn    = dados.filter(function(d){return d.empresa==='LBN';});
 
-  var totL = leblon.reduce(function(a,d){return a+parseFloat(d.saldo||0);},0);
-  var totN = lbn.reduce(function(a,d){return a+parseFloat(d.saldo||0);},0);
-  var totG = totL+totN;
+  // Separar bancos de investimentos
+  var leblonBancos = leblon.filter(function(d){return !isInv(d.banco);});
+  var lbnBancos    = lbn.filter(function(d){return !isInv(d.banco);});
+  var leblonInv    = leblon.filter(function(d){return isInv(d.banco);});
+  var lbnInv       = lbn.filter(function(d){return isInv(d.banco);});
+
+  var totL  = leblonBancos.reduce(function(a,d){return a+parseFloat(d.saldo||0);},0);
+  var totN  = lbnBancos.reduce(function(a,d){return a+parseFloat(d.saldo||0);},0);
+  var totG  = totL+totN;
+  var totIL = leblonInv.reduce(function(a,d){return a+parseFloat(d.saldo||0);},0);
+  var totIN = lbnInv.reduce(function(a,d){return a+parseFloat(d.saldo||0);},0);
 
   document.getElementById('tot-leblon').textContent=fmt(totL);
   document.getElementById('tot-lbn').textContent=fmt(totN);
   document.getElementById('tot-grupo').textContent=fmt(totG);
+  document.getElementById('tot-inv-leblon').textContent=fmt(totIL);
+  document.getElementById('tot-inv-lbn').textContent=fmt(totIN);
   document.getElementById('leblon-total').textContent=fmt(totL);
   document.getElementById('lbn-total').textContent=fmt(totN);
 
@@ -237,9 +264,9 @@ function renderDados(){
 function renderBancos(lista, empresa){
   if(!lista.length) return '<div class="loading">Nenhum banco cadastrado.</div>';
   return lista.map(function(d){
-    var isInv = d.banco.toLowerCase().includes('invest');
+    var inv = isInv(d.banco);
     var saldoCor = parseFloat(d.saldo||0) >= 0 ? '#34D399' : '#FC8181';
-    if(isInv) saldoCor='#9F7AEA';
+    if(inv) saldoCor='#9F7AEA';
     var atu = d.atualizado_por && d.atualizado_por!=='sistema'
       ? 'Atualizado por '+d.atualizado_por+' em '+new Date(d.atualizado_em).toLocaleDateString('pt-BR')
       : '';
@@ -257,7 +284,7 @@ function renderBancos(lista, empresa){
     return (
       '<div class="banco-row'+(isInv?' inv-row':'')+'">'
       +'<div>'
-      +'<div class="banco-nome">'+(isInv?'📊 ':'')+d.banco+'</div>'
+      +'<div class="banco-nome">'+(inv?'📊 ':'')+d.banco+'</div>'
       +(atu?'<div class="atu-info">'+atu+'</div>':'')
       +(d.observacao?'<div class="atu-info" style="color:#63B3ED88">'+d.observacao+'</div>':'')
       +'</div>'
