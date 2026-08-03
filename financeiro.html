@@ -246,9 +246,6 @@ function renderDados(){
   document.getElementById('tot-grupo').textContent=fmt(totG);
   document.getElementById('tot-inv-leblon').textContent=fmt(totIL);
   document.getElementById('tot-inv-lbn').textContent=fmt(totIN);
-  document.getElementById('leblon-total').textContent=fmt(totL);
-  document.getElementById('lbn-total').textContent=fmt(totN);
-
   // Ultima atualização
   var datas = dados.map(function(d){return new Date(d.atualizado_em);}).filter(function(d){return !isNaN(d);});
   if(datas.length){
@@ -257,8 +254,11 @@ function renderDados(){
       ult.toLocaleDateString('pt-BR')+' às '+ult.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
   }
 
-  document.getElementById('leblon-bancos').innerHTML = renderBancos(leblon, 'LEBLON');
-  document.getElementById('lbn-bancos').innerHTML    = renderBancos(lbn, 'LBN');
+  document.getElementById('leblon-bancos').innerHTML = renderBancos(leblonBancos, 'LEBLON') + renderInvestimentos(leblonInv);
+  document.getElementById('lbn-bancos').innerHTML    = renderBancos(lbnBancos, 'LBN') + renderInvestimentos(lbnInv);
+  // Atualizar total no header da secao — só bancos
+  document.getElementById('leblon-total').textContent=fmt(totL);
+  document.getElementById('lbn-total').textContent=fmt(totN);
 }
 
 function renderBancos(lista, empresa){
@@ -285,6 +285,40 @@ function renderBancos(lista, empresa){
       '<div class="banco-row'+(isInv?' inv-row':'')+'">'
       +'<div>'
       +'<div class="banco-nome">'+(inv?'📊 ':'')+d.banco+'</div>'
+      +(atu?'<div class="atu-info">'+atu+'</div>':'')
+      +(d.observacao?'<div class="atu-info" style="color:#63B3ED88">'+d.observacao+'</div>':'')
+      +'</div>'
+      +'<div style="text-align:right">'
+      +'<div class="banco-saldo" style="color:'+saldoCor+'">'+fmt(d.saldo)+'</div>'
+      +editBtn
+      +'</div>'
+      +editHTML
+      +'</div>'
+    );
+  }).join('');
+}
+
+function renderInvestimentos(lista){
+  if(!lista||!lista.length) return '';
+  var sep='<div style="height:1px;background:#9F7AEA33;margin:0 1.2rem"></div>';
+  return sep + lista.map(function(d){
+    var saldoCor='#9F7AEA';
+    var atu=d.atualizado_por&&d.atualizado_por!=='sistema'
+      ?'Atualizado por '+d.atualizado_por+' em '+new Date(d.atualizado_em).toLocaleDateString('pt-BR'):'';
+    var editHTML=roleAtual==='edit'?(
+      '<div class="banco-edit" id="edit-'+d.id+'">'
+      +'<input class="banco-input" id="val-'+d.id+'" type="text" value="'+parseFloat(d.saldo||0).toFixed(2)+'" placeholder="0.00">'
+      +'<input class="banco-obs" id="obs-'+d.id+'" type="text" value="'+(d.observacao||'')+'" placeholder="Observação (opcional)">'
+      +'<button class="banco-save" onclick="salvar('+d.id+',''+d.empresa+'',''+d.banco+'')">Salvar</button>'
+      +'<button class="banco-cancel" onclick="cancelarEdit('+d.id+')">Cancelar</button>'
+      +'</div>'
+    ):'';
+    var editBtn=roleAtual==='edit'
+      ?'<button onclick="abrirEdit('+d.id+')" style="font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer;white-space:nowrap">✏️ Editar</button>':'';
+    return (
+      '<div class="banco-row inv-row">'
+      +'<div>'
+      +'<div class="banco-nome">📊 '+d.banco+'</div>'
       +(atu?'<div class="atu-info">'+atu+'</div>':'')
       +(d.observacao?'<div class="atu-info" style="color:#63B3ED88">'+d.observacao+'</div>':'')
       +'</div>'
