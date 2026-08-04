@@ -190,7 +190,8 @@ function doLogin(){
   var p = document.getElementById('lg-pass').value.trim();
   var found = null;
   USUARIOS.forEach(function(usr){
-    if(usr[0]===u && usr[1]===p) found=usr;
+    // login case-insensitive, senha exata
+    if(usr[0].toLowerCase()===u && usr[1]===p) found=usr;
   });
   if(found){
     roleAtual=found[2]; nomeAtual=found[3];
