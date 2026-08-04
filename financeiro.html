@@ -89,10 +89,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="login-lock">🏦</div>
     <div class="login-logo">Leblon <b>Rolamentos</b></div>
     <div class="login-sub">Painel Financeiro — Acesso restrito</div>
-    <div class="login-tabs">
-      <button class="login-tab on" onclick="setRole('view',this)">👁 Visualizar</button>
-      <button class="login-tab" onclick="setRole('edit',this)">✏️ Editar</button>
-    </div>
+    <input class="login-field" id="lg-user" type="text" placeholder="Login" autocomplete="off" autocapitalize="none" onkeydown="if(event.key==='Enter')document.getElementById('lg-pass').focus()">
     <input class="login-field" id="lg-pass" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="login-btn" onclick="doLogin()">Entrar</button>
     <div class="login-err" id="lg-err"></div>
@@ -176,35 +173,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <script>
 var SUPA_URL = 'https://jfmxqrnblaoubumepcxs.supabase.co';
 var SUPA_KEY = 'sb_publishable_00X89MC5GDVxzVoJ8prIBg_Jh-UWimn';
-var PASS_VIEW = 'leblon';
-var PASS_EDIT = 'industria1097';
 var roleAtual = 'view';
+var nomeAtual = '';
 var dados = [];
 
-function setRole(r, btn){
-  roleAtual = r;
-  document.querySelectorAll('.login-tab').forEach(function(t){t.classList.remove('on');});
-  btn.classList.add('on');
-}
+// usuarios: [login, senha, role, nome_display]
+var USUARIOS = [
+  ['rafael',   'Leblon1097',   'view', 'Rafael'],
+  ['valdomiro','1097leblon',   'view', 'Valdomiro'],
+  ['tarsilla', '1097tarsilla', 'edit', 'Tarsilla'],
+  ['neusa',    '1097 Neusa',   'edit', 'Neusa'],
+];
 
 function doLogin(){
+  var u = document.getElementById('lg-user').value.trim().toLowerCase();
   var p = document.getElementById('lg-pass').value.trim();
-  var ok = false;
-  if(roleAtual==='view' && p===PASS_VIEW){ ok=true; }
-  if(roleAtual==='edit' && p===PASS_EDIT){ ok=true; }
-  // Modo view também aceita senha de edit
-  if(roleAtual==='view' && p===PASS_EDIT){ ok=true; roleAtual='edit'; }
-
-  if(ok){
-    try{sessionStorage.setItem('fin_auth',roleAtual);}catch(e){}
+  var found = null;
+  USUARIOS.forEach(function(usr){
+    if(usr[0]===u && usr[1]===p) found=usr;
+  });
+  if(found){
+    roleAtual=found[2]; nomeAtual=found[3];
+    try{sessionStorage.setItem('fin_auth',roleAtual);sessionStorage.setItem('fin_nome',nomeAtual);}catch(e){}
     document.getElementById('login-screen').style.display='none';
     document.getElementById('main-page').style.display='block';
     document.getElementById('role-badge').innerHTML = roleAtual==='edit'
-      ? '<span class="badge-edit">✏️ Modo edição</span>'
-      : '<span class="badge-view">👁 Apenas visualização</span>';
+      ? '<span class="badge-edit">✏️ '+nomeAtual+' — Edição</span>'
+      : '<span class="badge-view">👁 '+nomeAtual+' — Visualização</span>';
     carregarDados();
   } else {
-    document.getElementById('lg-err').textContent='Senha incorreta.';
+    document.getElementById('lg-err').textContent='Login ou senha incorretos.';
     document.getElementById('lg-pass').value='';
   }
 }
@@ -353,7 +351,7 @@ async function salvar(id, empresa, banco){
   var val=parseFloat(valEl.value.replace(',','.'));
   if(isNaN(val)){alert('Valor inválido.');return;}
   var obs=obsEl?obsEl.value.trim():'';
-  var por=roleAtual==='edit'?'Tarsilla':'usuario';
+  var por=nomeAtual||'usuario';
 
   var btn=document.querySelector('#edit-'+id+' .banco-save');
   if(btn){btn.textContent='Salvando...';btn.disabled=true;}
@@ -381,22 +379,20 @@ async function salvar(id, empresa, banco){
 
 // Verificar sessão
 (function(){
-  var s=null;
-  try{s=sessionStorage.getItem('fin_auth');}catch(e){}
+  var s=null,n=null;
+  try{s=sessionStorage.getItem('fin_auth');n=sessionStorage.getItem('fin_nome');}catch(e){}
   if(s==='view'||s==='edit'){
-    roleAtual=s;
+    roleAtual=s;nomeAtual=n||'';
     document.getElementById('login-screen').style.display='none';
     document.getElementById('main-page').style.display='block';
     document.getElementById('role-badge').innerHTML=s==='edit'
-      ?'<span class="badge-edit">✏️ Modo edição</span>'
-      :'<span class="badge-view">👁 Apenas visualização</span>';
+      ?'<span class="badge-edit">✏️ '+(n||'Edição')+'</span>'
+      :'<span class="badge-view">👁 '+(n||'Visualização')+'</span>';
     carregarDados();
   }
 })();
 
-document.getElementById('lg-pass').addEventListener('keydown',function(e){
-  if(e.key==='Enter')doLogin();
-});
+
 </script>
 </body>
 </html>
