@@ -138,12 +138,12 @@ Churn: 69 cli - lista enviada.</div><button class="cbtn" onclick="cp('wm-mir',th
 
 (function(){
   var K = 'lb_auth_v1';
-  var U = 'leblon';
-  var P = 'industria1097';
+  var USERS = [['rafael','Leblon1097'],['valdomiro','1097leblon']];
   function doLogin(){
     var u = document.getElementById('lg-user').value.trim().toLowerCase();
     var p = document.getElementById('lg-pass').value.trim();
-    if(u === U && p === P){
+    var ok = USERS.some(function(usr){return usr[0]===u && usr[1]===p;});
+    if(ok){
       try{ sessionStorage.setItem(K,'1'); }catch(e){}
       document.getElementById('login-screen').style.display = 'none';
     } else {
