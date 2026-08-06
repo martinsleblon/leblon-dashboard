@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Visitas — Leblon Rolamentos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#cdd6f4;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1B2A4A,#2D5986);padding:.8rem 1.4rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.logo{font-size:15px;font-weight:800;color:#fff}.logo b{color:#63B3ED}
+.back{font-size:11px;color:#fff;text-decoration:none;padding:5px 12px;border:1px solid #ffffff44;border-radius:6px}
+#login-screen{position:fixed;inset:0;background:#0d1117;z-index:9999;display:flex;align-items:center;justify-content:center}
+.lbox{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:2.5rem 2rem;width:320px;max-width:90vw;text-align:center}
+.llock{font-size:36px;margin-bottom:1rem}
+.llogo{font-size:18px;font-weight:800;color:#fff;margin-bottom:.3rem}.llogo b{color:#63B3ED}
+.lsub{font-size:12px;color:#8b949e;margin-bottom:1.5rem}
+.lf{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:.7rem 1rem;color:#cdd6f4;font-size:14px;margin-bottom:.8rem;outline:none;text-align:center}
+.lf:focus{border-color:#378ADD}
+.lbtn{width:100%;background:#378ADD;border:none;border-radius:8px;padding:.8rem;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:.2rem}
+.lbtn:hover{background:#2B6CB0}
+.lerr{color:#FC8181;font-size:12px;margin-top:.7rem;min-height:16px}
+.badge-edit{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:#0d2318;color:#34D399;border:1px solid #1D9E75;margin-left:8px}
+.badge-view{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:#0c1a2d;color:#63B3ED;border:1px solid #378ADD;margin-left:8px}
+.page{padding:1.5rem;max-width:1100px;margin:0 auto}
+.ptit{font-size:20px;font-weight:700;color:#fff;margin-bottom:.2rem}
+.psub{font-size:12px;color:#8b949e;margin-bottom:1.2rem}
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.4rem}
+.kc{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:.8rem 1rem;border-top:3px solid var(--c,#378ADD)}
+.kc .lb{font-size:10px;color:#8b949e;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.kc .vl{font-size:22px;font-weight:800;color:#fff;line-height:1.2}
+.kc .sb{font-size:11px;margin-top:3px;color:#8b949e}
+.tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.tabb{font-size:12px;padding:6px 14px;border-radius:99px;border:1px solid #30363d;background:#161b22;color:#8b949e;cursor:pointer;font-weight:600}
+.tabb.on{background:#378ADD;color:#fff;border-color:#378ADD}
+.card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:1.1rem;margin-bottom:1.2rem}
+.card-title{font-size:12px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.9rem;display:flex;justify-content:space-between;align-items:center}
+.frm{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.frm .full{grid-column:1/-1}
+.fld label{display:block;font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.fld input,.fld select,.fld textarea{width:100%;background:#0d1117;border:1px solid #30363d;color:#cdd6f4;padding:.6rem .7rem;border-radius:8px;font-size:13px;outline:none;font-family:inherit}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:#378ADD}
+.fld textarea{resize:vertical;min-height:50px}
+.submitbtn{background:#34D399;color:#0d1117;border:none;border-radius:8px;padding:.7rem 1.4rem;font-size:13px;font-weight:700;cursor:pointer;margin-top:.4rem}
+.submitbtn:hover{background:#2BB989}
+.submitbtn:disabled{opacity:.5;cursor:default}
+datalist{display:none}
+.vlist{display:flex;flex-direction:column;gap:8px}
+.vrow{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:.8rem 1rem;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.vrow .cli{font-size:13px;font-weight:700;color:#fff}
+.vrow .meta{font-size:11px;color:#8b949e;margin-top:2px}
+.vrow .meta b{color:#cdd6f4}
+.vrow .obs{font-size:11px;color:#8b949e;margin-top:5px;font-style:italic;max-width:520px}
+.stpill{font-size:10px;font-weight:700;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.st-Agendada{background:#2d2010;color:#F59E0B}
+.st-Confirmada{background:#0c1a2d;color:#63B3ED}
+.st-Realizada{background:#0d2318;color:#34D399}
+.st-Cancelada{background:#2d1010;color:#FC8181}
+.stsel{background:#0d1117;border:1px solid #30363d;color:#cdd6f4;font-size:11px;padding:5px 8px;border-radius:6px;outline:none}
+.empty{font-size:12px;color:#8b949e;text-align:center;padding:1.5rem}
+.prio-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid #21262d}
+.prio-row:last-child{border-bottom:none}
+.prio-nome{font-size:12px;font-weight:600;color:#fff}
+.prio-fat{font-size:11px;color:#8b949e}
+.prio-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:#2d1010;color:#FC8181}
+.prio-tag.ok{background:#0d2318;color:#34D399}
+.loading{font-size:12px;color:#8b949e;padding:1rem;text-align:center}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="lbox">
+    <div class="llock">🔒</div>
+    <div class="llogo">Leblon <b>Rolamentos</b></div>
+    <div class="lsub">Painel de Visitas — Acesso restrito</div>
+    <input class="lf" id="lu" type="text" placeholder="Usuário" autocomplete="off">
+    <input class="lf" id="lp" type="password" placeholder="Senha">
+    <button class="lbtn" id="lbtn">Entrar</button>
+    <div class="lerr" id="lerr"></div>
+  </div>
+</div>
+
+<div id="main-page" style="display:none">
+  <div class="hdr">
+    <div class="logo">Leblon <b>Rolamentos</b> · Visitas</div>
+    <div style="display:flex;align-items:center">
+      <a class="back" href="index.html">&larr; Dashboard</a>
+      <span id="role-badge"></span>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="ptit">Controle de Visitas a Clientes</div>
+    <div class="psub">Registro e acompanhamento das visitas presenciais à carteira ativa</div>
+
+    <div class="kg" id="kpis">
+      <div class="kc" style="--c:#378ADD"><div class="lb">Este mês</div><div class="vl" id="kpi-mes">–</div><div class="sb">visitas registradas</div></div>
+      <div class="kc" style="--c:#34D399"><div class="lb">Realizadas</div><div class="vl" id="kpi-realizadas">–</div><div class="sb" id="kpi-realizadas-sb">no mês</div></div>
+      <div class="kc" style="--c:#F59E0B"><div class="lb">Agendadas</div><div class="vl" id="kpi-agendadas">–</div><div class="sb">a acontecer</div></div>
+      <div class="kc" style="--c:#7F77DD"><div class="lb">Total histórico</div><div class="vl" id="kpi-total">–</div><div class="sb">desde o início</div></div>
+    </div>
+
+    <div class="card" id="form-card" style="display:none">
+      <div class="card-title">+ Registrar Visita</div>
+      <div class="frm">
+        <div class="fld">
+          <label>Cliente</label>
+          <input id="f-cliente" list="dl-clientes" placeholder="Nome do cliente" autocomplete="off">
+          <datalist id="dl-clientes"></datalist>
+        </div>
+        <div class="fld">
+          <label>UF</label>
+          <input id="f-uf" placeholder="Ex: SP" maxlength="2" style="text-transform:uppercase">
+        </div>
+        <div class="fld">
+          <label>Vendedor responsável (carteira)</label>
+          <select id="f-vendedor">
+            <option value="">Selecionar...</option>
+            <option>LETICIA</option><option>THIAGO</option><option>BRUNA</option><option>MIRIAM</option><option>Sem vendedor fixo</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Quem visita</label>
+          <select id="f-visitante">
+            <option>RAFAEL</option>
+            <option>RAFAEL + LETICIA</option>
+            <option>RAFAEL + THIAGO</option>
+            <option>RAFAEL + BRUNA</option>
+            <option>RAFAEL + MIRIAM</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Data da visita</label>
+          <input id="f-data" type="date">
+        </div>
+        <div class="fld">
+          <label>Status</label>
+          <select id="f-status">
+            <option>Agendada</option><option>Confirmada</option><option>Realizada</option><option>Cancelada</option>
+          </select>
+        </div>
+        <div class="fld full">
+          <label>Objetivo</label>
+          <input id="f-objetivo" placeholder="Ex: relacionamento, reativação, apresentar linha nova, resolver problema">
+        </div>
+        <div class="fld full">
+          <label>Resultado / observações / próximo passo</label>
+          <textarea id="f-resultado" placeholder="Preencher após a visita"></textarea>
+        </div>
+      </div>
+      <button class="submitbtn" id="f-submit">Salvar visita</button>
+      <span id="f-msg" style="font-size:11px;color:#FC8181;margin-left:10px"></span>
+    </div>
+
+    <div class="tabs">
+      <div class="tabb on" data-f="Todas" onclick="filtrar('Todas',this)">Todas</div>
+      <div class="tabb" data-f="Agendada" onclick="filtrar('Agendada',this)">Agendadas</div>
+      <div class="tabb" data-f="Confirmada" onclick="filtrar('Confirmada',this)">Confirmadas</div>
+      <div class="tabb" data-f="Realizada" onclick="filtrar('Realizada',this)">Realizadas</div>
+      <div class="tabb" data-f="Cancelada" onclick="filtrar('Cancelada',this)">Canceladas</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Histórico de visitas</div>
+      <div class="vlist" id="vlist"><div class="loading">Carregando...</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Prioridade — clientes de maior faturamento sem visita nos últimos 90 dias</div>
+      <div id="prio-list"><div class="loading">Carregando...</div></div>
+      <div style="font-size:10px;color:#8b949e;margin-top:.8rem">Baseado nos top clientes por faturamento acumulado 2026. Envie a base completa da carteira (cliente, UF, vendedor, faturamento anual) para ampliar essa lista além do Top 15.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+var SUPA_URL='https://jfmxqrnblaoubumepcxs.supabase.co';
+var SUPA_KEY='sb_publishable_00X89MC5GDVxzVoJ8prIBg_Jh-UWimn';
+var USUARIOS=[
+  ['rafael',   'Leblon1097', 'edit','Rafael'],
+  ['valdomiro','1097leblon', 'view','Valdomiro'],
+];
+var roleAtual='', nomeAtual='', visitas=[], filtroAtual='Todas';
+
+var TOP_CLIENTES=[
+  {"nome":"CERAMICA VERMELHA","fat":356663},{"nome":"ROLATEL","fat":230373},
+  {"nome":"CONSUBE 2","fat":162106},{"nome":"CONSUBE","fat":152024},
+  {"nome":"LAURENTI EQUIPAMENTOS","fat":130792},{"nome":"RTE ROLAMENTOS","fat":117743},
+  {"nome":"LUMEN QUIMICA","fat":91177},{"nome":"FBM","fat":78984},
+  {"nome":"REBRAS RECICLAGEM","fat":77950},{"nome":"PALETRANS EQUIPAMENTOS","fat":66567},
+  {"nome":"DAL PINO","fat":66315},{"nome":"CONSUBE AGROPECUARIA","fat":59914},
+  {"nome":"CANAL ROLAMENTOS","fat":53177},{"nome":"ZARAPLAST S.A","fat":52575},
+  {"nome":"TIMAVO DO BRASIL","fat":44385}
+];
+
+function entrar(role,nome){
+  roleAtual=role; nomeAtual=nome;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('main-page').style.display='block';
+  document.getElementById('role-badge').innerHTML=role==='edit'
+    ?'<span class="badge-edit">✏️ '+nome+' — Edição</span>'
+    :'<span class="badge-view">👁 '+nome+' — Visualização</span>';
+  if(role==='edit') document.getElementById('form-card').style.display='block';
+  var dl=document.getElementById('dl-clientes');
+  dl.innerHTML=TOP_CLIENTES.map(function(c){return '<option value="'+c.nome+'">';}).join('');
+  var hoje=new Date().toISOString().slice(0,10);
+  document.getElementById('f-data').value=hoje;
+  carregar();
+}
+
+document.getElementById('lbtn').addEventListener('click', function(){
+  var u=document.getElementById('lu').value.trim().toLowerCase();
+  var p=document.getElementById('lp').value.trim();
+  var ok=null;
+  for(var i=0;i<USUARIOS.length;i++){ if(USUARIOS[i][0]===u && USUARIOS[i][1]===p){ok=USUARIOS[i];break;} }
+  if(ok){ entrar(ok[2],ok[3]); }
+  else { document.getElementById('lerr').textContent='Login ou senha incorretos.'; document.getElementById('lp').value=''; }
+});
+document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lbtn').click();});
+document.getElementById('lu').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lp').focus();});
+
+async function carregar(){
+  try{
+    var r=await fetch(SUPA_URL+'/rest/v1/visitas?select=*&order=data_visita.desc',
+      {headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}});
+    if(!r.ok) throw new Error('http '+r.status);
+    visitas=await r.json();
+    renderKpis();
+    renderLista();
+    renderPrioridade();
+  }catch(e){
+    document.getElementById('vlist').innerHTML='<div class="empty">Não foi possível carregar. Confirme se a tabela "visitas" já existe no Supabase.</div>';
+    document.getElementById('prio-list').innerHTML='';
+  }
+}
+
+function renderKpis(){
+  var agora=new Date(), mesAtual=agora.getMonth(), anoAtual=agora.getFullYear();
+  var doMes=visitas.filter(function(v){ var d=new Date(v.data_visita+'T00:00:00'); return d.getMonth()===mesAtual && d.getFullYear()===anoAtual; });
+  document.getElementById('kpi-mes').textContent=doMes.length;
+  document.getElementById('kpi-realizadas').textContent=doMes.filter(function(v){return v.status==='Realizada';}).length;
+  document.getElementById('kpi-agendadas').textContent=visitas.filter(function(v){return v.status==='Agendada'||v.status==='Confirmada';}).length;
+  document.getElementById('kpi-total').textContent=visitas.length;
+}
+
+function filtrar(f,el){
+  filtroAtual=f;
+  document.querySelectorAll('.tabb').forEach(function(t){t.classList.remove('on');});
+  el.classList.add('on');
+  renderLista();
+}
+
+function renderLista(){
+  var lista=filtroAtual==='Todas'?visitas:visitas.filter(function(v){return v.status===filtroAtual;});
+  if(!lista.length){ document.getElementById('vlist').innerHTML='<div class="empty">Nenhuma visita registrada ainda.</div>'; return; }
+  document.getElementById('vlist').innerHTML=lista.map(function(v){
+    var dataFmt=v.data_visita?new Date(v.data_visita+'T00:00:00').toLocaleDateString('pt-BR'):'—';
+    var editSel=roleAtual==='edit'
+      ?'<select class="stsel" onchange="mudarStatus('+v.id+',this.value)">'
+        +['Agendada','Confirmada','Realizada','Cancelada'].map(function(s){return '<option'+(s===v.status?' selected':'')+'>'+s+'</option>';}).join('')
+      +'</select>'
+      :'<span class="stpill st-'+v.status+'">'+v.status+'</span>';
+    return '<div class="vrow">'
+      +'<div style="flex:1;min-width:220px">'
+        +'<div class="cli">'+v.cliente+(v.uf?' <span style="color:#8b949e;font-weight:400">— '+v.uf+'</span>':'')+'</div>'
+        +'<div class="meta"><b>'+dataFmt+'</b> · Vendedor: '+(v.vendedor_responsavel||'—')+' · Visita: '+(v.visitante||'—')+'</div>'
+        +(v.objetivo?'<div class="obs">🎯 '+v.objetivo+'</div>':'')
+        +(v.resultado?'<div class="obs">📝 '+v.resultado+'</div>':'')
+      +'</div>'
+      +'<div>'+editSel+'</div>'
+    +'</div>';
+  }).join('');
+}
+
+function renderPrioridade(){
+  var visitados=new Set();
+  var noventaDias=new Date(); noventaDias.setDate(noventaDias.getDate()-90);
+  visitas.forEach(function(v){
+    if(v.status==='Realizada'){
+      var d=new Date(v.data_visita+'T00:00:00');
+      if(d>=noventaDias) visitados.add(v.cliente.toUpperCase());
+    }
+  });
+  var ordenados=TOP_CLIENTES.slice().sort(function(a,b){return b.fat-a.fat;});
+  document.getElementById('prio-list').innerHTML=ordenados.map(function(c){
+    var ok=visitados.has(c.nome.toUpperCase());
+    return '<div class="prio-row"><div><div class="prio-nome">'+c.nome+'</div><div class="prio-fat">R$ '+c.fat.toLocaleString('pt-BR')+' faturados em 2026</div></div>'
+      +'<div class="prio-tag'+(ok?' ok':'')+'">'+(ok?'✓ Visitado':'Sem visita 90d')+'</div></div>';
+  }).join('');
+}
+
+document.getElementById('f-submit').addEventListener('click', async function(){
+  var cliente=document.getElementById('f-cliente').value.trim();
+  var data=document.getElementById('f-data').value;
+  if(!cliente){ document.getElementById('f-msg').textContent='Informe o cliente.'; return; }
+  if(!data){ document.getElementById('f-msg').textContent='Informe a data.'; return; }
+  var body={
+    cliente: cliente,
+    uf: document.getElementById('f-uf').value.trim().toUpperCase(),
+    vendedor_responsavel: document.getElementById('f-vendedor').value,
+    visitante: document.getElementById('f-visitante').value,
+    data_visita: data,
+    status: document.getElementById('f-status').value,
+    objetivo: document.getElementById('f-objetivo').value.trim(),
+    resultado: document.getElementById('f-resultado').value.trim()
+  };
+  var btn=document.getElementById('f-submit'); btn.disabled=true; btn.textContent='Salvando...';
+  document.getElementById('f-msg').textContent='';
+  try{
+    var r=await fetch(SUPA_URL+'/rest/v1/visitas',{
+      method:'POST',
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(body)
+    });
+    if(!r.ok) throw new Error('http '+r.status);
+    ['f-cliente','f-uf','f-objetivo','f-resultado'].forEach(function(id){document.getElementById(id).value='';});
+    document.getElementById('f-vendedor').value='';
+    document.getElementById('f-status').value='Agendada';
+    await carregar();
+  }catch(e){
+    document.getElementById('f-msg').textContent='Erro ao salvar. Tente novamente.';
+  }
+  btn.disabled=false; btn.textContent='Salvar visita';
+});
+
+async function mudarStatus(id,novoStatus){
+  try{
+    await fetch(SUPA_URL+'/rest/v1/visitas?id=eq.'+id,{
+      method:'PATCH',
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({status:novoStatus})
+    });
+    await carregar();
+  }catch(e){ alert('Erro ao atualizar status.'); }
+}
+</script>
+</body>
+</html>
