@@ -135,15 +135,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
+<script src="auth.js"></script>
 <script>
 var SUPA_URL='https://jfmxqrnblaoubumepcxs.supabase.co';
 var SUPA_KEY='sb_publishable_00X89MC5GDVxzVoJ8prIBg_Jh-UWimn';
-var USUARIOS=[
-  ['rafael',   'Leblon1097',   'view','Rafael'],
-  ['valdomiro','1097leblon',   'view','Valdomiro'],
-  ['tarsilla', '1097tarsilla', 'edit','Tarsilla'],
-  ['neusa',    '1097neusa',    'edit','Neusa'],
-];
 var roleAtual='', nomeAtual='', dados=[];
 
 function fmt(v){return 'R$ '+parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
@@ -159,15 +154,23 @@ function entrar(role,nome){
   carregar();
 }
 
+document.addEventListener('DOMContentLoaded', function(){
+  var acc = lbAccess('financeiro');
+  if(acc){ entrar(acc.nivel, acc.nome); }
+});
+
 document.getElementById('lbtn').addEventListener('click', function(){
-  var u=document.getElementById('lu').value.trim().toLowerCase();
-  var p=document.getElementById('lp').value.trim();
-  var ok=null;
-  for(var i=0;i<USUARIOS.length;i++){
-    if(USUARIOS[i][0]===u && USUARIOS[i][1]===p){ok=USUARIOS[i];break;}
+  var u=document.getElementById('lu').value;
+  var p=document.getElementById('lp').value;
+  var usr=lbLogin(u,p);
+  if(usr && usr.acesso.financeiro){
+    lbSaveSession(usr);
+    var a=usr.acesso.financeiro;
+    entrar(a===true?'view':a, usr.nome);
+  } else {
+    document.getElementById('lerr').textContent='Login ou senha incorretos.';
+    document.getElementById('lp').value='';
   }
-  if(ok){ entrar(ok[2],ok[3]); }
-  else { document.getElementById('lerr').textContent='Login ou senha incorretos.'; document.getElementById('lp').value=''; }
 });
 
 document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lbtn').click();});
