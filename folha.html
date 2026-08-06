@@ -282,14 +282,15 @@ tr:hover td{background:#323840}
   </div>
 
 </div>
+<script src="auth.js"></script>
 <script>
 (function(){
-  var K='lb_auth_v1',U='leblon',P='industria1097';
   function doLogin(){
-    var u=document.getElementById('lg-user').value.trim().toLowerCase();
-    var p=document.getElementById('lg-pass').value.trim();
-    if(u===U&&p===P){
-      try{sessionStorage.setItem(K,'1');}catch(e){}
+    var u=document.getElementById('lg-user').value;
+    var p=document.getElementById('lg-pass').value;
+    var usr=lbLogin(u,p);
+    if(usr && usr.acesso.folha){
+      lbSaveSession(usr);
       document.getElementById('login-screen').style.display='none';
     } else {
       document.getElementById('lg-err').textContent='Login ou senha incorretos.';
@@ -297,11 +298,10 @@ tr:hover td{background:#323840}
     }
   }
   window.doLogin=doLogin;
-  var ok=false;
-  try{ok=sessionStorage.getItem(K)==='1';}catch(e){}
+  var acc=lbAccess('folha');
   document.addEventListener('DOMContentLoaded',function(){
     var s=document.getElementById('login-screen');
-    if(s) s.style.display=ok?'none':'flex';
+    if(s) s.style.display=acc?'none':'flex';
   });
 })();
 </script>
