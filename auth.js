@@ -1,8 +1,8 @@
 // ===== Login compartilhado Leblon Rolamentos =====
 // Cada usuário tem uma senha só, valida em todas as páginas que ele tem acesso.
 var LB_USERS = [
-  { u: 'rafael',    p: 'Leblon1097',   nome: 'Rafael',    acesso: { dashboard: true, financeiro: 'view', folha: true, organograma: true, visitas: 'edit' } },
-  { u: 'valdomiro', p: '1097leblon',   nome: 'Valdomiro', acesso: { dashboard: true, financeiro: 'view', folha: true, organograma: true, visitas: 'view' } },
+  { u: 'rafael',    p: 'Leblon1097',   nome: 'Rafael',    acesso: { dashboard: true, financeiro: 'view', folha: true, organograma: true, visitas: 'edit', dre: 'edit' } },
+  { u: 'valdomiro', p: '1097leblon',   nome: 'Valdomiro', acesso: { dashboard: true, financeiro: 'view', folha: true, organograma: true, visitas: 'view', dre: 'view' } },
   { u: 'tarsilla',  p: '1097tarsilla', nome: 'Tarsilla',  acesso: { financeiro: 'edit' } },
   { u: 'neusa',     p: '1097neusa',    nome: 'Neusa',     acesso: { financeiro: 'edit' } },
   { u: 'leblon',    p: 'industria1097',nome: 'Equipe',    acesso: { folha: true, organograma: true } }
