@@ -41,6 +41,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .linha.destaque .lb, .linha.final .lb{color:#fff}
 .linha .vl{font-size:14px;font-weight:700;color:#fff;text-align:right}
 .linha .vl .pct{font-size:10px;color:#8b949e;font-weight:400;display:block}
+.val-receita{background:transparent;border:none;border-bottom:1px dashed #378ADD44;color:#fff;font-size:14px;font-weight:700;text-align:right;width:140px;padding:2px 2px;outline:none;font-family:inherit}
+.val-receita:focus{border-bottom-color:#378ADD}
 .linha .neg{color:#FC8181}
 .detalhe{background:#0d1117;padding:.4rem 1.2rem 1rem;display:none}
 .detalhe.on{display:block}
@@ -234,7 +236,7 @@ function linhaFixa(label, valor, pctTxt, destaque, final){
   var cls = final ? 'linha final' : (destaque ? 'linha destaque' : 'linha');
   var editavel = label==='RECEITA BRUTA' && roleAtual==='edit';
   var vlHtml = editavel
-    ? '<input class="val" style="width:130px" value="'+valor+'" onblur="salvarReceita(this.value)">'
+    ? 'R$ <input class="val-receita" value="'+valor+'" onblur="salvarReceita(this.value)">'
     : 'R$ '+fmt(valor)+(pctTxt?'<span class="pct">'+pctTxt+'</span>':'');
   return '<div class="'+cls+'" style="cursor:default"><div class="lb">'+label+'</div><div class="vl">'+vlHtml+'</div></div>';
 }
