@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>DRE — Leblon Rolamentos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#cdd6f4;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1B2A4A,#2D5986);padding:.8rem 1.4rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.logo{font-size:15px;font-weight:800;color:#fff}.logo b{color:#63B3ED}
+.back{font-size:11px;color:#fff;text-decoration:none;padding:5px 12px;border:1px solid #ffffff44;border-radius:6px}
+#login-screen{position:fixed;inset:0;background:#0d1117;z-index:9999;display:flex;align-items:center;justify-content:center}
+.lbox{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:2.5rem 2rem;width:320px;max-width:90vw;text-align:center}
+.llock{font-size:36px;margin-bottom:1rem}
+.llogo{font-size:18px;font-weight:800;color:#fff;margin-bottom:.3rem}.llogo b{color:#63B3ED}
+.lsub{font-size:12px;color:#8b949e;margin-bottom:1.5rem}
+.lf{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:.7rem 1rem;color:#cdd6f4;font-size:14px;margin-bottom:.8rem;outline:none;text-align:center}
+.lf:focus{border-color:#378ADD}
+.lbtn{width:100%;background:#378ADD;border:none;border-radius:8px;padding:.8rem;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:.2rem}
+.lbtn:hover{background:#2B6CB0}
+.lerr{color:#FC8181;font-size:12px;margin-top:.7rem;min-height:16px}
+.badge-edit{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:#0d2318;color:#34D399;border:1px solid #1D9E75;margin-left:8px}
+.badge-view{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:#0c1a2d;color:#63B3ED;border:1px solid #378ADD;margin-left:8px}
+.page{padding:1.5rem;max-width:900px;margin:0 auto}
+.ptit{font-size:20px;font-weight:700;color:#fff;margin-bottom:.2rem}
+.psub{font-size:12px;color:#8b949e;margin-bottom:1.2rem}
+.mesbar{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;flex-wrap:wrap}
+.mesbar select{background:#161b22;border:1px solid #30363d;color:#cdd6f4;padding:.6rem 1rem;border-radius:8px;font-size:13px;font-weight:600}
+.btn2{font-size:12px;padding:.6rem 1rem;border-radius:8px;border:1px solid #30363d;background:#161b22;color:#cdd6f4;cursor:pointer;font-weight:600}
+.btn2:hover{border-color:#63B3ED}
+.btn-novo{background:#34D399;color:#0d1117;border:none}
+.btn-novo:hover{background:#2BB989}
+.cascata{background:#161b22;border:1px solid #30363d;border-radius:12px;overflow:hidden;margin-bottom:1.2rem}
+.linha{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;border-bottom:1px solid #21262d;cursor:pointer}
+.linha:hover{background:#1c2128}
+.linha:last-child{border-bottom:none}
+.linha.destaque{background:#0c1a2d;font-weight:700}
+.linha.final{background:linear-gradient(135deg,#0d2318,#0c1a2d);font-weight:800;font-size:15px}
+.linha .lb{font-size:13px;color:#cdd6f4}
+.linha.destaque .lb, .linha.final .lb{color:#fff}
+.linha .vl{font-size:14px;font-weight:700;color:#fff;text-align:right}
+.linha .vl .pct{font-size:10px;color:#8b949e;font-weight:400;display:block}
+.linha .neg{color:#FC8181}
+.detalhe{background:#0d1117;padding:.4rem 1.2rem 1rem;display:none}
+.detalhe.on{display:block}
+.det-grupo{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin:.8rem 0 .4rem}
+.det-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;font-size:12px;border-bottom:1px solid #1c2128}
+.det-item input.desc{background:transparent;border:none;color:#cdd6f4;font-size:12px;flex:1;outline:none}
+.det-item input.desc:focus{color:#fff}
+.det-item input.val{background:#161b22;border:1px solid #30363d;color:#cdd6f4;font-size:12px;width:110px;text-align:right;padding:4px 8px;border-radius:6px;outline:none}
+.det-item input.val:focus{border-color:#378ADD}
+.det-item select.emp{background:#161b22;border:1px solid #30363d;color:#8b949e;font-size:10px;padding:3px 6px;border-radius:5px;margin-left:6px}
+.det-item .rm{background:transparent;border:none;color:#8b949e;cursor:pointer;font-size:13px;margin-left:6px;width:20px}
+.det-item .rm:hover{color:#FC8181}
+.add-item{font-size:11px;color:#63B3ED;background:transparent;border:none;cursor:pointer;padding:.4rem 0;font-weight:600}
+.add-item:hover{text-decoration:underline}
+.savebar{display:flex;justify-content:flex-end;gap:8px;padding:.8rem 1.2rem;background:#0d1117;border-top:1px solid #21262d}
+.savebtn{background:#378ADD;color:#fff;border:none;border-radius:8px;padding:.6rem 1.2rem;font-size:12px;font-weight:700;cursor:pointer}
+.savebtn:hover{background:#2B6CB0}
+.savebtn:disabled{opacity:.5;cursor:default}
+.msg{font-size:11px;color:#8b949e;align-self:center}
+.obs-box{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:.9rem 1.1rem;margin-bottom:1.2rem}
+.obs-box label{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem}
+.obs-box textarea{width:100%;background:#0d1117;border:1px solid #30363d;color:#cdd6f4;border-radius:6px;padding:.5rem .7rem;font-size:12px;min-height:50px;font-family:inherit;outline:none}
+.loading{text-align:center;padding:2rem;color:#8b949e;font-size:12px}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="lbox">
+    <div class="llock">🔒</div>
+    <div class="llogo">Leblon <b>Rolamentos</b></div>
+    <div class="lsub">DRE — Acesso restrito</div>
+    <input class="lf" id="lg-user" type="text" placeholder="Usuário" autocomplete="off">
+    <input class="lf" id="lg-pass" type="password" placeholder="Senha">
+    <button class="lbtn" onclick="doLogin()">Entrar</button>
+    <div class="lerr" id="lg-err"></div>
+  </div>
+</div>
+
+<div id="main-page" style="display:none">
+  <div class="hdr">
+    <div class="logo">Leblon <b>Rolamentos</b> · DRE</div>
+    <div style="display:flex;align-items:center">
+      <a class="back" href="index.html">&larr; Dashboard</a>
+      <span id="role-badge"></span>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="ptit">DRE Mensal</div>
+    <div class="psub">Demonstração do Resultado — cascata calculada automaticamente</div>
+
+    <div class="mesbar">
+      <select id="sel-mes"></select>
+      <button class="btn2 btn-novo" id="btn-novo-mes" onclick="criarNovoMes()">+ Novo mês (copia o anterior)</button>
+    </div>
+
+    <div id="conteudo"><div class="loading">Carregando...</div></div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+var SUPA_URL='https://jfmxqrnblaoubumepcxs.supabase.co';
+var SUPA_KEY='sb_publishable_00X89MC5GDVxzVoJ8prIBg_Jh-UWimn';
+function supaFetch(path, method, body){
+  var opts={method:method||'GET',headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=representation'}};
+  if(body) opts.body=JSON.stringify(body);
+  return fetch(SUPA_URL+'/rest/v1/'+path,opts);
+}
+
+var roleAtual='', nomeAtual='';
+var meses=[], mesAtual=null, itens=[], receitaBruta=0, observacoes='';
+var CATEGORIAS=[
+  {key:'cmv',       label:'CMV — Mercadoria Vendida', tipo:'sub'},
+  {key:'fixa',      label:'Despesas Fixas',           tipo:'sub'},
+  {key:'variavel',  label:'Despesas Variáveis',       tipo:'sub'},
+  {key:'imposto',   label:'Impostos',                 tipo:'sub'},
+  {key:'financeira',label:'Despesas Financeiras',     tipo:'sub'},
+];
+
+function entrar(role,nome){
+  roleAtual=role; nomeAtual=nome;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('main-page').style.display='block';
+  document.getElementById('role-badge').innerHTML=role==='edit'
+    ?'<span class="badge-edit">✏️ '+nome+' — Edição</span>'
+    :'<span class="badge-view">👁 '+nome+' — Visualização</span>';
+  if(role!=='edit') document.getElementById('btn-novo-mes').style.display='none';
+  carregarMeses();
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  var acc = lbAccess('dre');
+  if(acc){ entrar(acc.nivel, acc.nome); }
+});
+
+document.getElementById('lg-pass') && document.getElementById('lg-pass').addEventListener('keydown', function(e){
+  if(e.key==='Enter') doLogin();
+});
+function doLogin(){
+  var u=document.getElementById('lg-user').value;
+  var p=document.getElementById('lg-pass').value;
+  var usr=lbLogin(u,p);
+  if(usr && usr.acesso.dre){
+    lbSaveSession(usr);
+    entrar(usr.acesso.dre===true?'view':usr.acesso.dre, usr.nome);
+  } else {
+    document.getElementById('lg-err').textContent='Login ou senha incorretos.';
+    document.getElementById('lg-pass').value='';
+  }
+}
+
+async function carregarMeses(){
+  try{
+    var r=await supaFetch('dre_meses?select=mes&order=mes.desc');
+    var d=await r.json();
+    meses=d.map(function(m){return m.mes;});
+  }catch(e){ meses=[]; }
+  var sel=document.getElementById('sel-mes');
+  if(!meses.length){
+    document.getElementById('conteudo').innerHTML='<div class="loading">Nenhum mês cadastrado ainda. Clique em "+ Novo mês" pra começar.</div>';
+    sel.innerHTML='';
+    return;
+  }
+  sel.innerHTML=meses.map(function(m){return '<option value="'+m+'">'+mesLabel(m)+'</option>';}).join('');
+  sel.value=meses[0];
+  sel.onchange=function(){ carregarMes(sel.value); };
+  carregarMes(meses[0]);
+}
+
+function mesLabel(m){
+  var partes=m.split('-'), nomes=['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  return nomes[parseInt(partes[1])]+'/'+partes[0];
+}
+
+async function carregarMes(mes){
+  mesAtual=mes;
+  document.getElementById('conteudo').innerHTML='<div class="loading">Carregando...</div>';
+  try{
+    var r1=await supaFetch('dre_meses?mes=eq.'+mes+'&select=*');
+    var d1=await r1.json();
+    receitaBruta = (d1[0] && d1[0].receita_bruta) || 0;
+    observacoes = (d1[0] && d1[0].observacoes) || '';
+
+    var r2=await supaFetch('dre_itens?mes=eq.'+mes+'&select=*&order=id.asc');
+    itens = await r2.json();
+  }catch(e){ itens=[]; }
+  render();
+}
+
+function totalCat(cat){
+  return itens.filter(function(i){return i.categoria===cat;}).reduce(function(a,i){return a+parseFloat(i.valor||0);},0);
+}
+
+function render(){
+  var cmv=totalCat('cmv'), fixa=totalCat('fixa'), variavel=totalCat('variavel'),
+      imposto=totalCat('imposto'), financeira=totalCat('financeira');
+  var despOp = fixa+variavel;
+  var receitaLiquida = receitaBruta - imposto;
+  var margemBruta = receitaLiquida - cmv;
+  var ebitda = margemBruta - despOp;
+  var resultado = ebitda - financeira;
+  var pct = function(v){ return receitaBruta ? (v/receitaBruta*100).toFixed(1)+'%' : '—'; };
+
+  var html = '<div class="cascata">';
+  html += linhaFixa('RECEITA BRUTA', receitaBruta, '', true);
+  html += linhaCat('(-) Impostos', imposto, 'imposto');
+  html += linhaFixa('= RECEITA LÍQUIDA', receitaLiquida, pct(receitaLiquida), true);
+  html += linhaCat('(-) CMV', cmv, 'cmv');
+  html += linhaFixa('= MARGEM BRUTA', margemBruta, pct(margemBruta), true);
+  html += '<div class="linha" onclick="toggle(\'despop\')"><div class="lb">(-) Despesas Operacionais</div><div class="vl">- R$ '+fmt(despOp)+'</div></div>';
+  html += '<div class="detalhe" id="det-despop">'+
+            grupoDetalhe('fixa','Fixas') + grupoDetalhe('variavel','Variáveis') +
+          '</div>';
+  html += linhaFixa('= EBITDA', ebitda, pct(ebitda), true);
+  html += linhaCat('(-) Despesas Financeiras', financeira, 'financeira');
+  html += linhaFixa('= RESULTADO LÍQUIDO', resultado, pct(resultado), true, true);
+  html += '</div>';
+
+  html += '<div class="obs-box"><label>Observações do mês</label><textarea id="obs-txt" '+(roleAtual!=='edit'?'disabled':'')+' onblur="salvarObs()">'+observacoes+'</textarea></div>';
+
+  if(roleAtual==='edit'){
+    html += '<div class="savebar" style="background:transparent;border:none;justify-content:flex-start;padding:0 0 1rem"><span class="msg" id="save-msg"></span></div>';
+  }
+
+  document.getElementById('conteudo').innerHTML = html;
+}
+
+function linhaFixa(label, valor, pctTxt, destaque, final){
+  var cls = final ? 'linha final' : (destaque ? 'linha destaque' : 'linha');
+  var editavel = label==='RECEITA BRUTA' && roleAtual==='edit';
+  var vlHtml = editavel
+    ? '<input class="val" style="width:130px" value="'+valor+'" onblur="salvarReceita(this.value)">'
+    : 'R$ '+fmt(valor)+(pctTxt?'<span class="pct">'+pctTxt+'</span>':'');
+  return '<div class="'+cls+'" style="cursor:default"><div class="lb">'+label+'</div><div class="vl">'+vlHtml+'</div></div>';
+}
+
+function linhaCat(label, valor, cat){
+  return '<div class="linha" onclick="toggle(\''+cat+'\')"><div class="lb">'+label+'</div><div class="vl">- R$ '+fmt(valor)+'</div></div>'+
+    '<div class="detalhe" id="det-'+cat+'">'+grupoDetalhe(cat,null)+'</div>';
+}
+
+function grupoDetalhe(cat, tituloForcado){
+  var lista = itens.filter(function(i){return i.categoria===cat;});
+  var porEmpresa = {};
+  lista.forEach(function(i){
+    var k = i.empresa || '—';
+    (porEmpresa[k]=porEmpresa[k]||[]).push(i);
+  });
+  var html='';
+  if(tituloForcado) html += '<div class="det-grupo">'+tituloForcado+'</div>';
+  Object.keys(porEmpresa).sort().forEach(function(emp){
+    if(!tituloForcado) html += '<div class="det-grupo">'+emp+'</div>';
+    porEmpresa[emp].forEach(function(i){
+      html += itemHtml(i);
+    });
+  });
+  if(roleAtual==='edit'){
+    html += '<button class="add-item" onclick="addItem(\''+cat+'\')">+ adicionar item</button>';
+  }
+  return html;
+}
+
+function itemHtml(i){
+  var ro = roleAtual!=='edit';
+  return '<div class="det-item">'+
+    '<input class="desc" value="'+(i.descricao||'').replace(/"/g,'&quot;')+'" '+(ro?'disabled':'')+' onblur="editarItem('+i.id+',\'descricao\',this.value)">'+
+    (ro?'':'<select class="emp" onchange="editarItem('+i.id+',\'empresa\',this.value)">'+
+      ['','LEBLON','LBN'].map(function(e){return '<option value="'+e+'"'+(i.empresa===e?' selected':'')+'>'+(e||'—')+'</option>';}).join('')+
+    '</select>')+
+    '<input class="val" value="'+parseFloat(i.valor||0)+'" '+(ro?'disabled':'')+' onblur="editarItem('+i.id+',\'valor\',this.value)">'+
+    (ro?'':'<button class="rm" onclick="removerItem('+i.id+')">✕</button>')+
+  '</div>';
+}
+
+function toggle(cat){
+  var el=document.getElementById('det-'+cat);
+  if(el) el.classList.toggle('on');
+}
+
+function fmt(v){ return parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+async function editarItem(id, campo, valor){
+  if(campo==='valor') valor = parseFloat(valor.replace(',','.'))||0;
+  var idx = itens.findIndex(function(i){return i.id===id;});
+  if(idx>-1) itens[idx][campo]=valor;
+  var patch={}; patch[campo]=valor;
+  try{ await supaFetch('dre_itens?id=eq.'+id,'PATCH',patch); }catch(e){}
+  render();
+}
+
+async function removerItem(id){
+  itens = itens.filter(function(i){return i.id!==id;});
+  render();
+  try{ await supaFetch('dre_itens?id=eq.'+id,'DELETE'); }catch(e){}
+}
+
+async function addItem(cat){
+  var novo={mes:mesAtual, categoria:cat, empresa:null, descricao:'Novo item', valor:0};
+  try{
+    var r=await supaFetch('dre_itens','POST',novo);
+    var d=await r.json();
+    itens.push(d[0]);
+  }catch(e){}
+  render();
+  setTimeout(function(){ var el=document.getElementById('det-'+cat); if(el)el.classList.add('on'); }, 50);
+}
+
+async function salvarReceita(v){
+  v = parseFloat(v.replace(',','.'))||0;
+  receitaBruta = v;
+  try{ await supaFetch('dre_meses?mes=eq.'+mesAtual,'PATCH',{receita_bruta:v}); }catch(e){}
+  render();
+}
+
+async function salvarObs(){
+  var v = document.getElementById('obs-txt').value;
+  observacoes = v;
+  try{ await supaFetch('dre_meses?mes=eq.'+mesAtual,'PATCH',{observacoes:v}); }catch(e){}
+}
+
+async function criarNovoMes(){
+  var sugestao = proximoMes(meses[0]);
+  var mes = prompt('Mês novo (formato AAAA-MM):', sugestao);
+  if(!mes) return;
+  if(meses.indexOf(mes)>-1){ alert('Esse mês já existe.'); return; }
+
+  try{
+    await supaFetch('dre_meses','POST',{mes:mes, receita_bruta:0, observacoes:''});
+    // copia os itens do mes mais recente
+    if(itens.length){
+      var copiaPromises = itens.map(function(i){
+        return supaFetch('dre_itens','POST',{mes:mes, categoria:i.categoria, empresa:i.empresa, descricao:i.descricao, valor:i.valor});
+      });
+      await Promise.all(copiaPromises);
+    }
+  }catch(e){ alert('Erro ao criar novo mês.'); return; }
+
+  await carregarMeses();
+  document.getElementById('sel-mes').value = mes;
+  carregarMes(mes);
+}
+
+function proximoMes(m){
+  if(!m) return new Date().toISOString().slice(0,7);
+  var partes=m.split('-'), ano=parseInt(partes[0]), mes=parseInt(partes[1])+1;
+  if(mes>12){mes=1;ano++;}
+  return ano+'-'+String(mes).padStart(2,'0');
+}
+</script>
+</body>
+</html>
